@@ -1,0 +1,4 @@
+build*
+bindings/python/*.so
+bindings/python/build
+bindings/python/*.egg-info

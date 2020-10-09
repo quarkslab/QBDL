@@ -1,0 +1,13 @@
+prefix=/home/romain/dev/QBDL/_work/spdlog-1.8.2/install
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: libspdlog
+Description: Fast C++ logging library.
+URL: https://github.com/gabime/spdlog
+Version: 1.8.2
+CFlags: -I${includedir} -DSPDLOG_COMPILED_LIB
+Libs: -L${libdir} -lspdlog -pthread
+Requires: 
+

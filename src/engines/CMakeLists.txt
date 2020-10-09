@@ -1,0 +1,10 @@
+set(QBDL_ENGINE_SRC
+  "${CMAKE_CURRENT_LIST_DIR}/Native.cpp"
+)
+
+set(QBDL_ENGINE_INC )
+
+target_sources(QBDL PRIVATE
+  ${QBDL_ENGINE_SRC}
+  ${QBDL_ENGINE_INC}
+)
