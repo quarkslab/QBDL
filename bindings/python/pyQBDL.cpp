@@ -316,6 +316,14 @@ void pyinit_loaders(py::module &m) {
         py::keep_alive<0, 2>())
     .def("is_valid", &Loaders::ELF::is_valid,
         "Whether the loader object is consistent");
+
+  py::class_<Loaders::PE, Loader>(loaders, "PE", "PE loader")
+      .def_static("from_file", &Loaders::PE::from_file,
+                  "Load an PE file from its path on the disk", "bin_path"_a,
+                  "engines"_a, "bind"_a = Loader::BIND::DEFAULT,
+                  py::keep_alive<0, 2>())
+      .def("is_valid", &Loaders::PE::is_valid,
+           "Whether the loader object is consistent");
 }
 
 } // namespace QBDL

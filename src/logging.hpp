@@ -6,7 +6,7 @@ static constexpr bool QBDL_DEBUG_ENABLED = true;
 
 #define QBDL_DEBUG(...) QBDL::Logger::debug(__VA_ARGS__)
 #define QBDL_INFO(...) QBDL::Logger::info(__VA_ARGS__)
-#define QBDL_ERROR(...) QBDL::Logger::error(__VA_ARGS__)
+#define QBDL_ERROR(...) QBDL::Logger::err(__VA_ARGS__)
 #define QBDL_WARN(...) QBDL::Logger::warn(__VA_ARGS__)
 
 namespace QBDL {
