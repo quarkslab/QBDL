@@ -14,7 +14,8 @@ class TargetSystem;
  */
 class QBDL_API Loader {
 public:
-  enum class BIND { DEFAULT = 0, NOT_BIND, NOW, LAZY };
+  enum class BIND { NOT_BIND, NOW, LAZY };
+  static constexpr inline BIND BIND_DEFAULT = BIND::NOW;
 
 public:
   /** Get the resolved absolute virtual address of a symbol.

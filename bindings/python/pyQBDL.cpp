@@ -270,7 +270,6 @@ void pyinit_loaders(py::module &m) {
 
   py::class_<Loader, PyLoader> pyloader(m, "Loader", "Base class for all format loaders. See: :mod:`~pyqbdl.loaders`");
   py::enum_<Loader::BIND>(pyloader, "BIND", "Enum used to tweak the symbol binding mechanism")
-      .value("DEFAULT", Loader::BIND::DEFAULT, "The loader chooses the binding method by itself")
       .value("NOT_BIND", Loader::BIND::NOT_BIND, "Do not bind symbol at all")
       .value("NOW", Loader::BIND::NOW, "Bind all the symbols while loading the binary")
       .value("LAZY", Loader::BIND::LAZY, "Bind symbols when they are used (i.e lazily)");
@@ -304,7 +303,7 @@ void pyinit_loaders(py::module &m) {
 
       .def_static("from_file", &Loaders::MachO::from_file,
           "Load a Mach-O file from its path on the disk",
-          "path"_a, "arch"_a, "engine"_a, "binding"_a = Loader::BIND::DEFAULT,
+          "path"_a, "arch"_a, "engine"_a, "binding"_a = Loader::BIND_DEFAULT,
           py::keep_alive<0, 2>())
       .def_static("take_arch_binary", &Loaders::MachO::take_arch_binary,
           "Extract a Mach-O binary from a Fat binary that matches the given architecture",
@@ -315,7 +314,7 @@ void pyinit_loaders(py::module &m) {
   py::class_<Loaders::ELF, Loader>(loaders, "ELF", "ELF loader")
     .def_static("from_file", &Loaders::ELF::from_file,
         "Load an ELF file from its path on the disk",
-        "bin_path"_a, "engines"_a, "bind"_a = Loader::BIND::DEFAULT,
+        "bin_path"_a, "engines"_a, "bind"_a = Loader::BIND_DEFAULT,
         py::keep_alive<0, 2>())
     .def("is_valid", &Loaders::ELF::is_valid,
         "Whether the loader object is consistent");
@@ -323,7 +322,7 @@ void pyinit_loaders(py::module &m) {
   py::class_<Loaders::PE, Loader>(loaders, "PE", "PE loader")
       .def_static("from_file", &Loaders::PE::from_file,
                   "Load an PE file from its path on the disk", "bin_path"_a,
-                  "engines"_a, "bind"_a = Loader::BIND::DEFAULT,
+                  "engines"_a, "bind"_a = Loader::BIND_DEFAULT,
                   py::keep_alive<0, 2>())
       .def("is_valid", &Loaders::PE::is_valid,
            "Whether the loader object is consistent");

@@ -33,13 +33,12 @@ public:
    * @param[in] engine Reference to a ::QBDL::TargetSystem object. The returned
    * ELF object does *not* own this reference. It is the responsibility of the
    * user to ensure this object lives as long as the returned ELF object lives.
-   * @param[in] binding Binding mode. Note that BIND::LAZY is only supported
-   * with a native engine.
+   * @param[in] binding Binding mode. Only BIND::NOW is supported for now.
    * @returns A ::QBDL::Loaders::ELF object, or nullptr if loading failed.
    */
   static std::unique_ptr<ELF>
   from_binary(std::unique_ptr<LIEF::ELF::Binary> bin, TargetSystem &engine,
-              BIND binding = BIND::DEFAULT);
+              BIND binding = BIND::NOW);
 
   /** Loads an ELF file directly from disk.
    *
@@ -55,7 +54,7 @@ public:
    * @returns An ::QBDL::Loaders::ELF object, or nullptr if loading failed.
    */
   static std::unique_ptr<ELF> from_file(const char *path, TargetSystem &engine,
-                                        BIND binding = BIND::DEFAULT);
+                                        BIND binding = BIND_DEFAULT);
 
   operator bool() const { return this->is_valid(); }
 
@@ -73,9 +72,9 @@ public:
 
 private:
   static uintptr_t dl_resolve(void *loader, uintptr_t symidx);
-  using relocator_t = void (ELF::*)(const LIEF::ELF::Relocation &, bool);
-  void reloc_x86_64(const LIEF::ELF::Relocation &reloc, bool is_lazy);
-  void reloc_aarch64(const LIEF::ELF::Relocation &reloc, bool is_lazy);
+  using relocator_t = void (ELF::*)(const LIEF::ELF::Relocation &);
+  void reloc_x86_64(const LIEF::ELF::Relocation &reloc);
+  void reloc_aarch64(const LIEF::ELF::Relocation &reloc);
   void bind_lazy(relocator_t relocator);
   void bind_now(relocator_t relocator);
   uint64_t get_rva(const LIEF::ELF::Binary &bin, uint64_t addr) const;

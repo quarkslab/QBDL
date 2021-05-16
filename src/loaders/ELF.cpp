@@ -167,26 +167,21 @@ void ELF::load(BIND binding) {
   // Perform relocations
   // =======================================================
   for (const Relocation &reloc : binary.dynamic_relocations()) {
-    (*this.*relocator)(reloc, true);
+    (*this.*relocator)(reloc);
   }
 
   // Bind symbols
   switch (binding) {
-  case BIND::NOW: {
+  case BIND::NOW:
     bind_now(relocator);
     break;
-  }
 
   case BIND::LAZY:
-  case BIND::DEFAULT: {
     bind_lazy(relocator);
     break;
-  }
 
   case BIND::NOT_BIND:
-  default: {
     break;
-  }
   }
 }
 
@@ -232,7 +227,7 @@ void ELF::bind_lazy(ELF::relocator_t relocator) {
 
 void ELF::bind_now(ELF::relocator_t relocator) {
   for (const Relocation &reloc : get_binary().pltgot_relocations()) {
-    (*this.*relocator)(reloc, false);
+    (*this.*relocator)(reloc);
   }
 }
 

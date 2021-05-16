@@ -27,13 +27,12 @@ public:
    * @param[in] engine Reference to a ::QBDL::TargetSystem object. The returned
    * ELF object does *not* own this reference. It is the responsibility of the
    * user to ensure this object lives as long as the returned ELF object lives.
-   * @param[in] binding Binding mode. Note that BIND::LAZY is only supported
-   * with a native engine.
+   * @param[in] binding Binding mode. Only BIND::NOW is supported for now.
    * @returns A ::QBDL::Loaders::MachO object, or nullptr if loading failed.
    */
   static std::unique_ptr<MachO>
   from_binary(std::unique_ptr<LIEF::MachO::Binary> bin, TargetSystem &engine,
-              BIND binding = BIND::DEFAULT);
+              BIND binding = BIND_DEFAULT);
 
   /** Select a binary from a universal MachO that matches a given architecture.
    *
@@ -68,7 +67,7 @@ public:
    */
   static std::unique_ptr<MachO> from_file(const char *path, Arch const &arch,
                                           TargetSystem &engine,
-                                          BIND binding = BIND::DEFAULT);
+                                          BIND binding = BIND_DEFAULT);
 
   operator bool() const { return this->is_valid(); }
 
@@ -82,9 +81,6 @@ public:
   ~MachO() override;
 
 private:
-  static uintptr_t __dyld_stub_binder(void *arg0, void *arg1, void *arg2,
-                                      void *arg3, void *arg4, void *arg5);
-  void bind_lazy();
   void bind_now();
   uint64_t get_rva(const LIEF::MachO::Binary &bin, uint64_t addr) const;
   LIEF::MachO::Binary &get_binary() { return *bin_; }

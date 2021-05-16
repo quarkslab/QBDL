@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
   const char *path = argv[1];
 
   std::unique_ptr<Loaders::PE> loader =
-      Loaders::PE::from_file(path, *system, Loader::BIND::DEFAULT);
+      Loaders::PE::from_file(path, *system, Loader::BIND::NOW);
 
   if (!loader) {
     fprintf(stderr, "unable to load binary!\n");

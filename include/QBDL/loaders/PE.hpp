@@ -31,12 +31,12 @@ public:
    * PE object does *not* own this reference. It is the responsibility of the
    * user to ensure this object lives as long as the returned PE object lives.
    * @param[in] binding Binding mode. Note that the current implementation only
-   * supports BIND::DEFAULT and BIND::NOW.
+   * supports BIND::NOW.
    * @returns A ::QBDL::Loaders::PE object, or nullptr if loading failed.
    */
   static std::unique_ptr<PE> from_binary(std::unique_ptr<LIEF::PE::Binary> bin,
                                          TargetSystem &engine,
-                                         BIND binding = BIND::DEFAULT);
+                                         BIND binding = BIND_DEFAULT);
 
   /** Loads an PE file directly from disk.
    *
@@ -52,7 +52,7 @@ public:
    * @returns An ::QBDL::Loaders::PE object, or nullptr if loading failed.
    */
   static std::unique_ptr<PE> from_file(const char *path, TargetSystem &engine,
-                                       BIND binding = BIND::DEFAULT);
+                                       BIND binding = BIND_DEFAULT);
 
   operator bool() const { return this->is_valid(); }
 
