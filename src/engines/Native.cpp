@@ -1,32 +1,11 @@
 #include "logging.hpp"
 #include <QBDL/engines/Native.hpp>
-#include <sys/mman.h>
-
-namespace QBDL::Engines::Native {
 
 static_assert(
     sizeof(uintptr_t) <= sizeof(uint64_t),
     "native target with pointer integer type > 64 bits are not supported");
 
-uint64_t TargetMemory::mmap(uint64_t addr, size_t size) {
-  void *ret = ::mmap(reinterpret_cast<void *>(addr), size,
-                     PROT_READ | PROT_WRITE | PROT_EXEC,
-                     MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-
-  if (ret == nullptr) {
-    Logger::err("Error while trying mmap: {}", strerror(errno));
-    return 0;
-  }
-
-  Logger::debug("mmap(0x{:x}, 0x{:x}): 0x{:x}", addr, size,
-                reinterpret_cast<uintptr_t>(ret));
-  return reinterpret_cast<uint64_t>(ret);
-}
-
-bool TargetMemory::mprotect(uint64_t addr, size_t size, int prot) {
-  Logger::warn("mprotect not implemented!");
-  return false;
-}
+namespace QBDL::Engines::Native {
 
 void TargetMemory::write(uint64_t addr, const void *ptr, size_t size) {
   memcpy(reinterpret_cast<void *>(addr), ptr, size);
@@ -51,4 +30,13 @@ QBDL_API std::unique_ptr<QBDL::TargetMemory> memory() {
   return std::unique_ptr<QBDL::TargetMemory>{Ret};
 }
 
-} // namespace QBDL::Engines::Native
+}
+
+#if defined(__linux__) or defined(__APPLE__)
+#include "native_posix.inc"
+#elif defined(_WIN32)
+#include "native_win.inc"
+#else
+#error Unsupported OS
+#endif
+
