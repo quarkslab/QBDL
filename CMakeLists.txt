@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(LIEF REQUIRED)
 
 add_subdirectory(src)
-add_subdirectory(tools)
+add_subdirectory(examples/tools)
 if (QBDL_BUILD_DOCS)
   add_subdirectory(docs)
 endif()
