@@ -8,6 +8,7 @@
 #include "QBDL/engines/Native.hpp"
 #include "QBDL/loaders/MachO.hpp"
 #include "QBDL/loaders/ELF.hpp"
+#include "QBDL/loaders/PE.hpp"
 
 #include <pybind11/functional.h>
 #include <pybind11/operators.h>
@@ -113,6 +114,8 @@ struct PyNativeTargetSystem: public Engines::Native::TargetSystem {
 
 
 PYBIND11_MODULE(pyqbdl, qbdl_module) {
+
+  py::module::import("lief");
 
   qbdl_module.doc() = R"pbdoc(
         Main Interface
