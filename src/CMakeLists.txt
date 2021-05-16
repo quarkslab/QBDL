@@ -33,11 +33,6 @@ set_target_properties(QBDL PROPERTIES
   VISIBILITY_INLINES_HIDDEN ON
 )
 
-enable_language(ASM-ATT)
-set(CMAKE_ASM-ATT_COMPILER ${AS_BINARY})
-set(ASM_EXT "s")
-set(CMAKE_ASM-ATT_COMPILE_OBJECT "<CMAKE_ASM-ATT_COMPILER> ${CMAKE_ASM-ATT_FLAGS} -o <OBJECT> <SOURCE>")
-
 # Multiple things:
 # * remove RTTI and exceptions
 # * activate some warnings

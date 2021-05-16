@@ -11,62 +11,6 @@ extern "C" uintptr_t __dyld_stub_binder_dry_call();
 
 namespace QBDL::Loaders {
 
-uintptr_t MachO::__dyld_stub_binder(void *arg0, void *arg1, void *arg2,
-                                    void *arg3, void *arg4, void *arg5) {
-  // See:
-  // https://github.com/opensource-apple/dyld/blob/3f928f32597888c5eac6003b9199d972d49857b5/src/dyld_stub_binder.s#L118-L121
-  // sp[1] = address of ImageLoader cache
-  // sp[2] = lazy binding info offset
-  // sp[3] = ret address
-  //
-  // 1. Address of ImageLoader cache
-  // 2. Lazy bind offset is the offset into the bindings opcodes associated with
-  //    the symbol to resolve.
-  // 3. Return address is the return address once the symbol has been resolved
-  //
-  // We changed the value of sp[1] so that it contains a pointer to the current
-  // loader
-  //
-  // TODO(romain): Abstract sp access
-  auto sp = reinterpret_cast<uintptr_t *>(__builtin_frame_address(0));
-  const uintptr_t scratch_variable = sp[1];
-  const uintptr_t lazy_bind_offset = sp[2];
-  Logger::info(
-      "SP[0] = 0x{:x} | SP[1] = 0x{:x} | SP[2] = 0x{:x} | SP[3] = 0x{:x}",
-      sp[0], sp[1], sp[2], sp[3]);
-  Logger::info("*sp[1]: 0x{:x}",
-               *reinterpret_cast<uintptr_t *>(scratch_variable));
-  MachO &loader = **reinterpret_cast<MachO **>(sp[1]);
-  LIEF::MachO::Binary &binary = loader.get_binary();
-  bool found = false;
-  for (const LIEF::MachO::BindingInfo &info : binary.dyld_info().bindings()) {
-    if (info.binding_class() != LIEF::MachO::BINDING_CLASS::BIND_CLASS_LAZY) {
-      continue;
-    }
-    if (info.original_offset() != lazy_bind_offset) {
-      continue;
-    }
-    const LIEF::Symbol &sym = info.symbol();
-    Logger::info("{}", info.symbol().name());
-
-    uint64_t addr = loader.engine_->symlink(loader, sym);
-    if (addr > 0) {
-      found = true;
-      auto func = reinterpret_cast<decltype(MachO::__dyld_stub_binder) *>(addr);
-      sp[1] = sp[3];
-      // Call the resolved function
-      return func(arg0, arg1, arg2, arg3, arg4, arg5);
-    }
-  }
-  if (not found) {
-    Logger::err("Can't find symbol associated with offset {:d}", sp[2]);
-    std::exit(1);
-  }
-  // Restore original ret address
-  sp[1] = sp[3];
-  return 0;
-};
-
 std::unique_ptr<MachO> MachO::from_file(const char *path, Arch const &arch,
                                         TargetSystem &engine, BIND binding) {
   Logger::info("Loading {}", path);
@@ -213,117 +157,14 @@ bool MachO::load(BIND binding) {
     break;
   }
 
-  case BIND::LAZY: {
-    // Note: it should not be available for target that are not "native"
-    bind_lazy();
-    break;
-  }
-
   case BIND::NOT_BIND:
-  case BIND::DEFAULT:
-  default: {
+  default:
     break;
-  }
   }
 
   return true;
 }
 
-void MachO::bind_lazy() {
-  static const std::string DYLD_SYM_NAME = "dyld_stub_binder";
-
-  const LIEF::MachO::Binary &binary = get_binary();
-  const Arch binarch = arch();
-  const uintptr_t base_address = base_address_;
-  // dyld_stub_binder
-  // =======================================================
-  if (not binary.has_symbol(DYLD_SYM_NAME)) {
-    Logger::warn("Symbol {} not found. Can't bind symbol lazily",
-                 DYLD_SYM_NAME);
-    return;
-  }
-  const LIEF::MachO::Symbol &dyld_stub_binder =
-      binary.get_symbol(DYLD_SYM_NAME);
-  if (not dyld_stub_binder.has_binding_info()) {
-    Logger::warn("Can't find binding info associated with symbol {}",
-                 DYLD_SYM_NAME);
-    return;
-  }
-  const uintptr_t rva =
-      get_rva(binary, dyld_stub_binder.binding_info().address());
-  Logger::info("dyld_stub_binder addr 0x{:x}", rva);
-
-  // clang-format off
-  // __stub_helper:0000000100000F8C loc_100000F8C:                          ;
-  // CODE XREF: __stub_helper:0000000100000FA1↓j
-  // __stub_helper:0000000100000F8C lea     r11, off_100001008
-  // __stub_helper:0000000100000F93 push    r11
-  // __stub_helper:0000000100000F95 jmp     cs:dyld_stub_binder_ptr
-  // __stub_helper:0000000100000F95 ;
-  // ---------------------------------------------------------------------------
-  // __stub_helper:0000000100000F9B align 4
-  // __stub_helper:0000000100000F9C push    0             ; Lazy bind offset within the opcodes
-  // __stub_helper:0000000100000FA1 jmp     loc_100000F8C
-  // ...
-  // __nl_symbol_ptr:0000000100001000 __nl_symbol_ptr segment qword public 'DATA' use64
-  // __nl_symbol_ptr:0000000100001001                 assume cs:__nl_symbol_ptr
-  // __nl_symbol_ptr:0000000100001000                 ;org 100001000h
-  // __nl_symbol_ptr:0000000100001000 dyld_stub_binder_ptr dq offset dyld_stub_binder
-  // __nl_symbol_ptr:0000000100001000                                         ; DATA XREF: __stub_helper:0000000100000F95↑r
-  // __nl_symbol_ptr:0000000100001008 off_100001008   dq 0                    ; DATA XREF: __stub_helper:loc_100000F8C↑o
-  // __nl_symbol_ptr:0000000100001008 __nl_symbol_ptr ends
-  // ...
-  // When calling dyld_stub_binder, it calls dyld_stub_binder_ptr
-  // (off_100001000). Since the stub of all imported functions call
-  // dyld_stub_binder_ptr, we can replace this pointer with our own
-  // implementation.
-  //
-  // The address of the "cache" (dyld_stub_binder_ptr + 8) in this case
-  // is not always located at +uint64_t after
-  // the symbol __dyld_stub_binder. The Mach-O format does not provide
-  // any clue to get its address. Nevertheless, we know that this address
-  // is always pushed right before calling dyld_stub_binder. Therefore,
-  // we can do a "dry-call" to dyld_stub_bind to get this address.
-  // clang-format on
-  //
-  engine_->mem().write_ptr(
-      binarch, base_address + rva,
-      reinterpret_cast<uintptr_t>(&__dyld_stub_binder_dry_call));
-  const LIEF::MachO::Section &stub_helper = binary.get_section("__stub_helper");
-  const uintptr_t stub_helper_va =
-      base_address_ + get_rva(binary, stub_helper.virtual_address());
-  auto stub_helper_fcn = reinterpret_cast<uintptr_t (*)()>(stub_helper_va);
-  uintptr_t cache_address = stub_helper_fcn();
-  Logger::info("Scratch variable addr: 0x{:x}", cache_address);
-  engine_->mem().write_ptr(
-      binarch, base_address + rva,
-      reinterpret_cast<uintptr_t>(&MachO::__dyld_stub_binder));
-  engine_->mem().write_ptr(binarch, cache_address,
-                           reinterpret_cast<uintptr_t>(this));
-
-  for (const LIEF::MachO::BindingInfo &info : binary.dyld_info().bindings()) {
-    // TODO(romain): Add BIND_CLASS_THREADED when moving to LIEF 0.12.0
-    if (info.binding_class() == LIEF::MachO::BINDING_CLASS::BIND_CLASS_LAZY) {
-      continue;
-    }
-    if (!info.has_symbol()) {
-      Logger::warn("Missing symbol");
-      continue;
-    }
-    const auto &sym = info.symbol();
-    if (sym.name() == "dyld_stub_binder") {
-      continue;
-    }
-    const uint64_t ptrRVA = get_rva(binary, info.address());
-    const uint64_t ptrAddr = base_address_ + ptrRVA;
-    const uint64_t symAddr = engine_->symlink(*this, sym);
-    Logger::info(
-        "Symbol {} resolves to address 0x{:x}, stored at address 0x{:x}",
-        sym.name(), symAddr, ptrAddr);
-    // Store the address of the resolved symbol into ptrAddr
-    engine_->mem().write_ptr(binarch, ptrAddr, symAddr);
-  }
-}
 void MachO::bind_now() {
   const LIEF::MachO::Binary &binary = get_binary();
   const Arch binarch = arch();

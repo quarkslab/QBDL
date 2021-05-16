@@ -176,52 +176,9 @@ void ELF::load(BIND binding) {
     bind_now(relocator);
     break;
 
-  case BIND::LAZY:
-    bind_lazy(relocator);
-    break;
-
   case BIND::NOT_BIND:
+  case BIND::LAZY:
     break;
-  }
-}
-
-void ELF::bind_lazy(ELF::relocator_t relocator) {
-  // The beginning of the .got.plt is identified by the dynamic entry: DT_PLTGOT
-  // or the symbol _GLOBAL_OFFSET_TABLE_. I would say that the DT_PLTGOT is more
-  // reliable ...
-  // The first three entries contain the following values:
-  //
-  // GOT[0] := Address of the PT_DYNAMIC segment
-  // GOT[1] := Shared object identifier (point to the "link_map")
-  // GOT[2] := Address to the lazy runtime resolver (_dl_runtime_resolve_XXX)
-  //           which is defined in sysdeps/<arch>/dl-trampoline.S
-  //
-  // We can use this layout to setup our own _dl_runtime_resolve (GOT[2])
-  // and using GOT[1] as a 'scratch variable' to pass a reference to the current
-  // loader object (this)
-  //
-  // On Android lazy-binding is not "supported" in the sense that the Android
-  // ELF binaries have all the information to bind them lazily but they didn't
-  // want to support it in the Android loader (likely for security reasons)
-
-  const Binary &bin = get_binary();
-  const Arch binarch = arch();
-
-  if (not bin.has(DYNAMIC_TAGS::DT_PLTGOT)) {
-    Logger::warn("Missing DT_PLTGOT. Can't lazy-bind this binary");
-    return;
-  }
-
-  const uintptr_t got_addr =
-      get_address(bin.get(DYNAMIC_TAGS::DT_PLTGOT).value());
-  engine_->mem().write_ptr(binarch, got_addr + 1 * sizeof(uintptr_t),
-                           reinterpret_cast<uintptr_t>(this));
-
-  engine_->mem().write_ptr(binarch, got_addr + 2 * sizeof(uintptr_t),
-                           reinterpret_cast<uintptr_t>(&_dl_resolve_internal));
-
-  for (const Relocation &reloc : bin.pltgot_relocations()) {
-    (*this.*relocator)(reloc, true);
   }
 }
 
@@ -243,7 +200,7 @@ uintptr_t ELF::resolve(const LIEF::ELF::Symbol &sym) {
   return get_address(it_sym->second->value());
 }
 
-void ELF::reloc_x86_64(const LIEF::ELF::Relocation &reloc, bool is_lazy) {
+void ELF::reloc_x86_64(const LIEF::ELF::Relocation &reloc) {
   const Arch binarch = arch();
   const auto type = static_cast<RELOC_x86_64>(reloc.type());
   const uintptr_t addr_target = base_address_ + reloc.address();
@@ -262,13 +219,8 @@ void ELF::reloc_x86_64(const LIEF::ELF::Relocation &reloc, bool is_lazy) {
       break;
     }
 
-    if (is_lazy) {
-      const uintptr_t value = engine_->mem().read_ptr(binarch, addr_target);
-      engine_->mem().write_ptr(binarch, addr_target, base_address_ + value);
-    } else {
-      const uintptr_t sym_addr = engine_->symlink(*this, reloc.symbol());
-      engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
-    }
+    const uintptr_t sym_addr = engine_->symlink(*this, reloc.symbol());
+    engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
     break;
   }
   case RELOC_x86_64::R_X86_64_GLOB_DAT: {
@@ -298,7 +250,7 @@ void ELF::reloc_x86_64(const LIEF::ELF::Relocation &reloc, bool is_lazy) {
 
 Arch ELF::arch() const { return Arch::from_bin(get_binary()); }
 
-void ELF::reloc_aarch64(const LIEF::ELF::Relocation &reloc, bool is_lazy) {
+void ELF::reloc_aarch64(const LIEF::ELF::Relocation &reloc) {
   const Arch binarch = arch();
   const auto type = static_cast<RELOC_AARCH64>(reloc.type());
   const uintptr_t addr_target = base_address_ + reloc.address();
@@ -315,13 +267,8 @@ void ELF::reloc_aarch64(const LIEF::ELF::Relocation &reloc, bool is_lazy) {
       engine_->mem().write_ptr(binarch, addr_target, addr + reloc.addend());
       break;
     }
-    if (is_lazy) {
-      const uintptr_t value = engine_->mem().read_ptr(binarch, addr_target);
-      engine_->mem().write_ptr(binarch, addr_target, base_address_ + value);
-    } else {
-      const uintptr_t sym_addr = engine_->symlink(*this, reloc.symbol());
-      engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
-    }
+    const uintptr_t sym_addr = engine_->symlink(*this, reloc.symbol());
+    engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
     break;
   }
   case RELOC_AARCH64::R_AARCH64_GLOB_DAT: {
