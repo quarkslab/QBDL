@@ -12,7 +12,7 @@ namespace QBDL::Loaders {
 std::unique_ptr<PE> PE::from_file(const char *path, TargetSystem &engines,
                                   BIND binding) {
   Logger::info("Loading {}", path);
-  if (not is_pe(path)) {
+  if (!is_pe(path)) {
     Logger::err("{} is not an PE file", path);
     return {};
   }
@@ -73,7 +73,7 @@ void PE::load(BIND binding) {
       engine_->base_address_hint(imagebase, virtual_size);
   const uint64_t base_address =
       engine_->mem().mmap(base_address_hint, virtual_size);
-  if (base_address == 0 or base_address == -1ull) {
+  if (base_address == 0 || base_address == -1ull) {
     Logger::err("mmap() failed! Abort.");
     return;
   }

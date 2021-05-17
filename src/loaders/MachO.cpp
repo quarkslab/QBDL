@@ -14,13 +14,13 @@ namespace QBDL::Loaders {
 std::unique_ptr<MachO> MachO::from_file(const char *path, Arch const &arch,
                                         TargetSystem &engine, BIND binding) {
   Logger::info("Loading {}", path);
-  if (not LIEF::MachO::is_macho(path)) {
+  if (!LIEF::MachO::is_macho(path)) {
     Logger::err("{} is not a Mach-O file", path);
     return {};
   }
   std::unique_ptr<LIEF::MachO::FatBinary> fat =
       LIEF::MachO::Parser::parse(path);
-  if (fat == nullptr or fat->size() == 0) {
+  if (fat == nullptr || fat->size() == 0) {
     Logger::err("Can't parse {}", path);
     return {};
   }
@@ -60,7 +60,7 @@ MachO::MachO(std::unique_ptr<LIEF::MachO::Binary> bin, TargetSystem &engine)
 
 uint64_t MachO::get_address(const std::string &sym) const {
   const LIEF::MachO::Binary &binary = get_binary();
-  if (not binary.has_symbol(sym)) {
+  if (!binary.has_symbol(sym)) {
     return 0;
   }
   const LIEF::MachO::Symbol &symbol = binary.get_symbol(sym);
@@ -170,7 +170,7 @@ void MachO::bind_now() {
   const Arch binarch = arch();
   for (const LIEF::MachO::BindingInfo &info : binary.dyld_info().bindings()) {
     // TODO(romain): Add BIND_CLASS_THREADED when moving to LIEF 0.12.0
-    if (info.binding_class() != LIEF::MachO::BINDING_CLASS::BIND_CLASS_LAZY and
+    if (info.binding_class() != LIEF::MachO::BINDING_CLASS::BIND_CLASS_LAZY &&
         info.binding_class() !=
             LIEF::MachO::BINDING_CLASS::BIND_CLASS_STANDARD) {
       continue;

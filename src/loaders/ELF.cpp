@@ -50,7 +50,7 @@ uintptr_t ELF::dl_resolve(void *loader, uintptr_t hint) {
 std::unique_ptr<ELF> ELF::from_file(const char *path, TargetSystem &engines,
                                     BIND binding) {
   Logger::info("Loading {}", path);
-  if (not is_elf(path)) {
+  if (!is_elf(path)) {
     Logger::err("{} is not an ELF file", path);
     return {};
   }
