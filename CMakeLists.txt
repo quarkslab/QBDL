@@ -14,9 +14,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Dependencies
 find_package(LIEF REQUIRED)
 
+enable_testing()
 add_subdirectory(src)
 if (QBDL_BUILD_EXAMPLES)
-  add_subdirectory(examples/tools)
+  add_subdirectory(examples)
 endif()
 if (QBDL_BUILD_DOCS)
   add_subdirectory(docs)
