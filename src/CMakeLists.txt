@@ -26,12 +26,17 @@ if (QBDL_TYPE STREQUAL "STATIC_LIBRARY")
 endif()
 
 set_target_properties(QBDL PROPERTIES
-  LINK_WHAT_YOU_USE         ON
   POSITION_INDEPENDENT_CODE ON
   C_VISIBILITY_PRESET       hidden
   CXX_VISIBILITY_PRESET     hidden
   VISIBILITY_INLINES_HIDDEN ON
 )
+if (NOT MSVC)
+  # AG: LINK_WHAT_YOU_USE try to use ldd under Windows!
+  set_target_properties(QBDL PROPERTIES
+    LINK_WHAT_YOU_USE         ON
+  )
+endif()
 
 # Multiple things:
 # * remove RTTI and exceptions
