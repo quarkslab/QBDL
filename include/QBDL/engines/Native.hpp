@@ -66,7 +66,7 @@ static inline constexpr LIEF::ENDIANNESS LIEFEndianess() {
 }
 
 static inline constexpr bool Is64Bit() {
-#ifdef __LP64__
+#if defined(__LP64__) || defined(_WIN64)
   return true;
 #else
   return false;
