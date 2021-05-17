@@ -105,7 +105,6 @@ uint64_t ELF::entrypoint() const {
 }
 
 void ELF::load(BIND binding) {
-  Logger::info("this: 0x{:x}", reinterpret_cast<uintptr_t>(this));
   Binary &binary = get_binary();
 
   uint64_t virtual_size = binary.virtual_size();

@@ -82,7 +82,6 @@ uint64_t MachO::entrypoint() const {
 }
 
 bool MachO::load(BIND binding) {
-  Logger::info("this: 0x{:x}", reinterpret_cast<uintptr_t>(this));
   LIEF::MachO::Binary &binary = get_binary();
   const Arch binarch = arch();
 

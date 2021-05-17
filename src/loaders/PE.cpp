@@ -60,7 +60,6 @@ uint64_t PE::entrypoint() const {
 }
 
 void PE::load(BIND binding) {
-  Logger::info("this: 0x{:x}", reinterpret_cast<uintptr_t>(this));
   Binary &binary = get_binary();
   const uint64_t imagebase = binary.optional_header().imagebase();
 
