@@ -17,7 +17,7 @@ from distutils.version import LooseVersion
 
 
 MIN_SETUPTOOLS_VERSION = "31.0.0"
-assert (LooseVersion(setuptools.__version__) >= LooseVersion(MIN_SETUPTOOLS_VERSION)), "LIEF requires a setuptools version '{}' or higher (pip install setuptools --upgrade)".format(MIN_SETUPTOOLS_VERSION)
+assert (LooseVersion(setuptools.__version__) >= LooseVersion(MIN_SETUPTOOLS_VERSION)), "QBDL requires a setuptools version '{}' or higher (pip install setuptools --upgrade)".format(MIN_SETUPTOOLS_VERSION)
 
 CURRENT_DIR = Path(__file__).parent
 SOURCE_DIR  = CURRENT_DIR / ".." / ".."
@@ -67,7 +67,6 @@ class BuildLibrary(build_ext):
         fullname = self.get_ext_fullname(ext.name)
         filename = self.get_ext_filename(fullname)
 
-        jobs = self.parallel if self.parallel else 1
         cmake_args = []
 
         source_dir = ext.sourcedir
@@ -76,7 +75,7 @@ class BuildLibrary(build_ext):
 
         extdir                         = Path(self.get_ext_fullpath(ext.name)).parent
         cmake_library_output_directory = build_temp.parent.absolute()
-        cfg                            = 'RelWithDebInfo' if self.debug else 'Release'
+        cfg                            = 'Debug' if self.debug else 'Release'
         is64                           = sys.maxsize > 2**32
 
         # Ninja ?
@@ -87,10 +86,12 @@ class BuildLibrary(build_ext):
         if build_with_ninja:
             cmake_args += ["-G", "Ninja"]
 
-        py_version = "{}.{}".format(sys.version_info.major, sys.version_info.minor)
         cmake_args += [
             '-DCMAKE_LIBRARY_OUTPUT_DIRECTORY={}'.format(cmake_library_output_directory),
-            '-DPYTHON_VERSION={}'.format(py_version),
+            '-DPython3_ROOT_DIR={}'.format(sys.prefix),
+            '-DPython3_FIND_STRATEGY=LOCATION',
+            '-DQBDL_BUILD_EXAMPLES=OFF',
+            '-DQBDL_BUILD_DOCS=OFF',
             '-DQBDL_PYTHON_BINDING=on',
             '-DCMAKE_BUILD_TYPE={}'.format(cfg),
         ]
@@ -125,11 +126,11 @@ class BuildLibrary(build_ext):
         log.info(" ".join(configure_cmd))
         subprocess.check_call(configure_cmd, cwd=self.build_temp, env=env)
 
-        if build_with_ninja:
-            subprocess.check_call(['ninja', "pyqbdl"], cwd=self.build_temp, env=env)
-        else:
-            log.info("Using {} jobs".format(jobs))
-            subprocess.check_call(['make', '-j', str(jobs), "pyqbdl"], cwd=self.build_temp, env=env)
+        subprocess.check_call(['cmake', "--build", ".","--config",cfg], cwd=self.build_temp, env=env)
+
+        if platform.system() == "Windows":
+            cmake_library_output_directory /= cfg
+
 
         py_lib_dst  = Path(self.build_lib) / self.get_ext_filename(self.get_ext_fullname(ext.name))
         libsuffix = py_lib_dst.name.split(".")[-1]
@@ -199,14 +200,16 @@ def get_version() -> str:
     return version
 
 version = get_version()
-print(version)
 cmdclass = {
     'build_ext': BuildLibrary,
 }
+
+LIEF_VERSION = "0.11.5"
 
 setup(
     distclass=PyQbdlDistribution,
     ext_modules=[Module(PACKAGE_NAME)],
     cmdclass=cmdclass,
-    version=version
+    version=version,
+    install_requires=["lief=={}".format(LIEF_VERSION)],
 )
