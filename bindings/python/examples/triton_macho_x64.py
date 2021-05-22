@@ -129,5 +129,5 @@ loader = pyqbdl.loaders.MachO.from_file(args.filename, x86_64_arch,
 
 ctx.setConcreteRegisterValue(ctx.registers.rbp, 0x7fffffff)
 ctx.setConcreteRegisterValue(ctx.registers.rsp, 0x6fffffff)
-emulate(ctx, loader.entrypoint())
+emulate(ctx, loader.entrypoint)
 
