@@ -48,7 +48,7 @@ static inline constexpr LIEF::ARCHITECTURES LIEFArch() {
   return LIEF::ARCH_ARM;
 #elif defined(__aarch64__)
   return LIEF::ARCH_ARM64;
-#elif defined(__i386__) || defined(__x86_64__)
+#elif defined(__i386__) || defined(__x86_64__) || defined(_M_IX86) || defined(_M_X64)
   return LIEF::ARCH_X86;
 #elif defined(__mips__)
   return LIEF::ARCH_MIPS;

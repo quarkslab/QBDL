@@ -38,6 +38,11 @@ if (NOT MSVC)
   )
 endif()
 
+if (NOT BUILD_SHARED_LIBS)
+  set_property(TARGET QBDL PROPERTY
+    MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
+
 # Multiple things:
 # * remove RTTI and exceptions
 # * activate some warnings
@@ -46,7 +51,9 @@ if(MSVC)
   # GX-: remove exceptions
   # Gy: equivalent of -ffunction-sections
   set(CXX_FLAGS /Gy)
-  target_compile_definitions(QBDL PRIVATE _CRT_SECURE_NO_WARNINGS)
+  target_compile_definitions(QBDL PRIVATE _CRT_SECURE_NO_WARNINGS _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS)
+  # LIEF public headers need this include if we are using MSVC...
+  target_compile_options(QBDL PRIVATE /FIiso646.h)
 else (MSVC)
   set(CXX_FLAGS
     -Wall

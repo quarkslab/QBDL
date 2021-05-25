@@ -1,0 +1,157 @@
+---
+
+name: Python wheels (& publish)
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  release:
+    types: [created]
+
+jobs:
+  build_wheel_linux:
+    strategy:
+      matrix:
+        config:
+          - tag: quay.io/pypa/manylinux2014_x86_64
+            lief_arch: x86_64
+            docker_opts:
+#          - tag: aguinet/manylinux2014_aarch64_cross_x64
+#            lief_arch: aarch64
+#            qemu_arch: arm64
+#            docker_opts: "--env CC=/opt/native/bin/clang --env CXX=/opt/native/bin/clang++ --env CMAKE_BIN=/opt/native/bin/cmake --env LDFLAGS=-fuse-ld=lld"
+        py_vers:
+          - "cp36-cp36m cp37-cp37m"
+          - "cp38-cp38 cp39-cp39"
+
+    runs-on: ubuntu-20.04
+
+    env:
+      LIEF_VERSION: 0.11.5
+      PY_VERS: ${{ matrix.py_vers }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # TODO: put this in a separate action?
+      - name: Download and extract LIEF
+        run: |
+          wget https://github.com/lief-project/LIEF/releases/download/$LIEF_VERSION/LIEF-$LIEF_VERSION-Linux-${{ matrix.config.lief_arch }}-manylinux2014.tar.bz2 -O LIEF.tar.bz2
+          tar xf LIEF.tar.bz2 && rm LIEF.tar.bz2 && mv LIEF-* LIEF
+
+      - name: Set up QEMU
+        if: matrix.config.lief_arch != 'x86_64'
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+        with:
+          image: tonistiigi/binfmt:latest
+          platforms: ${{ matrix.config.qemu_arch }}
+
+      - name: Build wheels & tests
+        working-directory: bindings/python
+        run: |
+          docker run -v $GITHUB_WORKSPACE:/pwd ${{ matrix.config.docker_opts }} "${{ matrix.config.tag }}" /bin/bash /pwd/ci/build_wheels_manylinux.sh /pwd /pwd/LIEF/share/LIEF/cmake $PY_VERS
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: qbdl-wheels
+          path: bindings/python/wheelhouse/
+
+  build_wheel_osxwin:
+    strategy:
+      matrix:
+        py_vers: [3.6, 3.7, 3.8, 3.9]
+        runs_on:
+          - macos-10.15
+          - windows-latest
+
+    runs-on: ${{ matrix.runs_on }}
+
+    env:
+      LIEF_VERSION: 0.11.5
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download and extract LIEF (OSX)
+        if: runner.os == 'macOS'
+        run: |
+          wget https://github.com/lief-project/LIEF/releases/download/$LIEF_VERSION/LIEF-$LIEF_VERSION-Darwin-x86_64.tar.gz -O LIEF.tar.gz
+          tar xf LIEF.tar.gz && rm LIEF.tar.gz && mv LIEF-* LIEF
+
+      - name: Download and extract LIEF (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/lief-project/LIEF/releases/download/$env:LIEF_VERSION/LIEF-$env:LIEF_VERSION-win64.zip" -OutFile "LIEF.zip"
+          7z x LIEF.zip
+          rm LIEF.zip
+          mv LIEF-$env:LIEF_VERSION-win64 LIEF
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.py_vers }}
+
+      - name: Setup Python dependencies
+        run: |
+          pip install --upgrade setuptools wheel
+
+      - name: Build wheel
+        working-directory: bindings/python
+        run: |
+          python ./setup.py --lief-dir=$PWD/../../LIEF/share/LIEF/cmake bdist_wheel
+
+      # Needed to build Miasm under Windows
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          toolset: "14.16"
+        if: runner.os == 'Windows'
+
+      - name: Install Windows
+        if: runner.os == 'Windows'
+        working-directory: bindings/python
+        run: |
+          pip install (get-item ./dist/*.whl).FullName
+      - name: Install OSX
+        if: runner.os == 'macOS'
+        working-directory: bindings/python
+        run: |
+          pip install dist/*.whl
+
+      - name: Test wheel
+        working-directory: bindings/python
+        run: |
+          pip install pyparsing future
+          git clone https://github.com/cea-sec/miasm && cd miasm && git checkout 6285271a95f3ec9815728fb808a69bb21b50f770 && python ./setup.py install && cd ..
+          python ./examples/miasm_macho_x64.py ../../examples/binaries/macho-x86-64-hello.bin
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: qbdl-wheels
+          path: bindings/python/dist/
+
+  publish:
+    if: github.event.release
+    runs-on: ubuntu-latest
+    needs: [build_wheel_linux, build_wheel_osxwin]
+
+    steps:
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    - name: Install dependencies
+      run: |
+        pip install twine
+    - uses: actions/download-artifact@v1
+      with:
+        name: qbdl-wheels
+        path: wheelhouse
+    - name: Publish to PyPI
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      run: |
+        twine upload wheelhouse/*.whl

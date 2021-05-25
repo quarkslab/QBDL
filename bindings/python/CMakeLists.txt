@@ -1,7 +1,7 @@
-find_package(Python3 ${PYTHON_VERSION} EXACT COMPONENTS Development REQUIRED)
+find_package(Python3 COMPONENTS Development.Module REQUIRED)
 set(PYBIND11_VERSION 2.6.2)
 
-Python3_add_library(pyqbdl SHARED
+Python3_add_library(pyqbdl MODULE
   pyQBDL.cpp
 )
 
@@ -16,5 +16,6 @@ target_include_directories(pyqbdl
   PRIVATE
     ${THIRD_PARTY_DIRECTORY}/pybind11-${PYBIND11_VERSION}/include)
 
-target_compile_options(pyqbdl PUBLIC -frtti -fexceptions)
 target_link_libraries(pyqbdl PRIVATE QBDL)
+set_property(TARGET pyqbdl PROPERTY
+  MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
