@@ -35,36 +35,3 @@ main_ptr(0, ctypes.c_void_p(0))
 ```
 
 For more detailed use cases, please refer to [the documentation](docs/use_cases.rst).
-
-## Quick usage
-
-A dockerfile is provided to quickly test the library. From the root of the
-project, running:
-
-```
-docker build -t quarkslab/qbdl --target runner -f ./docker/qbdl.dockerfile .
-```
-
-will create a ``quarkslab/qbdl`` docker image containing a compiled version of
-LIEF, QBDL and some examples in the `/qbdl` directory:
-
-```
-# docker run --rm -it quarkslab/qbdl /bin/bash
-root@...:/qbdl# python3 ./miasm_macho_x64.py macho-o-x86-64-hello.bin -j python
-Loading macho-o-x86-64-hello.bin
-this: 0x1e28d50
-Virtual size: 0x3000
-Mapping __PAGEZERO - 0x0
-Mapping __TEXT - 0x0
-Mapping __DATA - 0x1000
-Mapping __LINKEDIT - 0x2000
-Symbol dyld_stub_binder resolves to address 0x700000000000, stored at address 0x100001000
-Symbol _puts resolves to address 0x700000000008, stored at address 0x100001010
-Addr               Size               Access Comment
-0x1230000          0x10000            RW_    Stack
-0x100000000        0x3000             RW_    
-
-Calling _puts
-coucou
-[+] End!
-```
