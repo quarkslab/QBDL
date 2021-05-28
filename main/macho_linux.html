@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Run simple MachO binaries under Linux &mdash; qbdl 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Running Android Library on Linux" href="anroid_lib.html" />
+    <link rel="prev" title="Load binaries in the Miasm VM" href="miasm.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> qbdl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="use_cases.html">Use cases</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="miasm.html">Load binaries in the Miasm VM</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Run simple MachO binaries under Linux</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#qbdl-usage">QBDL usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#abi-issues">ABI issues</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#going-further">Going further</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="anroid_lib.html">Running Android Library on Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference_cxx.html">C++ API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference_py.html">Python API reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">qbdl</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="use_cases.html">Use cases</a> &raquo;</li>
+        
+      <li>Run simple MachO binaries under Linux</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="run-simple-macho-binaries-under-linux">
+<h1>Run simple MachO binaries under Linux<a class="headerlink" href="#run-simple-macho-binaries-under-linux" title="Permalink to this headline">¶</a></h1>
+<p>QBDL ships the <code class="docutils literal notranslate"><span class="pre">run_macho</span></code> tool that can run “simple” MachO binaries under
+Linux. It tries to map calls to OSX’s <code class="docutils literal notranslate"><span class="pre">libSystem.dylib</span></code> to Linux’s <code class="docutils literal notranslate"><span class="pre">glibc</span></code>.</p>
+<p>Full source code of the tool is in the <code class="docutils literal notranslate"><span class="pre">tools/macho_run</span></code> directory.</p>
+<div class="section" id="qbdl-usage">
+<h2>QBDL usage<a class="headerlink" href="#qbdl-usage" title="Permalink to this headline">¶</a></h2>
+<p>We use the native engine, using the classes
+<a class="reference internal" href="reference_cxx.html#_CPPv4N4QBDL7Engines6Native12TargetMemoryE" title="QBDL::Engines::Native::TargetMemory"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">QBDL::Engines::Native::TargetMemory</span></code></a> and
+<a class="reference internal" href="reference_cxx.html#_CPPv4N4QBDL7Engines6Native12TargetSystemE" title="QBDL::Engines::Native::TargetSystem"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">QBDL::Engines::Native::TargetSystem</span></code></a>.</p>
+<p>The only thing that we have to define is the
+<a class="reference internal" href="reference_cxx.html#_CPPv4N4QBDL12TargetSystem7symlinkER6LoaderRKN4LIEF6SymbolE" title="QBDL::TargetSystem::symlink"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">QBDL::TargetSystem::symlink()</span></code></a> function. For this simple use case,
+let’s define a map of the symbols we support, and their effective address
+(resolved at static link time):</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="kt">uintptr_t</span><span class="o">&gt;</span> <span class="n">SYMS</span><span class="p">{</span>
+    <span class="p">{</span><span class="s">&quot;_puts&quot;</span><span class="p">,</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uintptr_t</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">puts</span><span class="p">)},</span>
+    <span class="p">{</span><span class="s">&quot;_printf&quot;</span><span class="p">,</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uintptr_t</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">printf</span><span class="p">)}};</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">symlink</span></code> is a lookup in this map:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nc">FinalTargetSystem</span><span class="o">:</span> <span class="k">public</span> <span class="n">Engines</span><span class="o">::</span><span class="n">Native</span><span class="o">::</span><span class="n">TargetSystem</span> <span class="p">{</span>
+  <span class="k">using</span> <span class="n">Engines</span><span class="o">::</span><span class="n">Native</span><span class="o">::</span><span class="n">TargetSystem</span><span class="o">::</span><span class="n">TargetSystem</span><span class="p">;</span>
+
+  <span class="kt">uint64_t</span> <span class="nf">symlink</span><span class="p">(</span><span class="n">Loader</span> <span class="o">&amp;</span><span class="n">loader</span><span class="p">,</span> <span class="k">const</span> <span class="n">LIEF</span><span class="o">::</span><span class="n">Symbol</span> <span class="o">&amp;</span><span class="n">sym</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">&amp;</span><span class="n">name</span> <span class="o">=</span> <span class="n">sym</span><span class="p">.</span><span class="n">name</span><span class="p">();</span>
+    <span class="k">auto</span> <span class="n">it_sym</span> <span class="o">=</span> <span class="n">SYMS</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">it_sym</span> <span class="o">==</span> <span class="n">std</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">SYMS</span><span class="p">))</span> <span class="p">{</span>
+      <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Symbol %s not resolved!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+      <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">it_sym</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The only thing that remains is glue all of this together and run the binary:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">mem</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">Engines</span><span class="o">::</span><span class="n">Native</span><span class="o">::</span><span class="n">TargetMemory</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="k">auto</span> <span class="n">system</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">FinalTargetSystem</span><span class="o">&gt;</span><span class="p">(</span><span class="o">*</span><span class="n">mem</span><span class="p">);</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">Loaders</span><span class="o">::</span><span class="n">MachO</span><span class="o">&gt;</span> <span class="n">loader</span> <span class="o">=</span> <span class="n">Loaders</span><span class="o">::</span><span class="n">MachO</span><span class="o">::</span><span class="n">from_file</span><span class="p">(</span>
+    <span class="n">path</span><span class="p">,</span> <span class="n">Engines</span><span class="o">::</span><span class="n">Native</span><span class="o">::</span><span class="n">arch</span><span class="p">(),</span> <span class="o">*</span><span class="n">system</span><span class="p">,</span> <span class="n">Loader</span><span class="o">::</span><span class="n">BIND</span><span class="o">::</span><span class="n">NOW</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">loader</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;unable to load binary!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">EXIT_FAILURE</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">auto</span> <span class="n">main</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">int</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="p">)</span><span class="o">&gt;</span><span class="p">(</span><span class="n">loader</span><span class="o">-&gt;</span><span class="n">entrypoint</span><span class="p">());</span>
+<span class="k">return</span> <span class="n">main</span><span class="p">(</span><span class="n">argc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="abi-issues">
+<h2>ABI issues<a class="headerlink" href="#abi-issues" title="Permalink to this headline">¶</a></h2>
+<p>This tool can also be used to run ARM64 MachO binaries. Emulation for Intel
+systems can be achieved by using the <a class="reference external" href="https://qemu-project.gitlab.io/qemu/user/index.html">QEMU user mode</a>.</p>
+<p>Unfortunately, while OSX and Linux x64 ABIs are pretty close, there are <a class="reference external" href="https://developer.apple.com/documentation/xcode/writing_arm64_code_for_apple_platforms">non
+negligeable differences between Linux and OSX ARM64 ABIs</a>.
+So, we can’t just “forward” calls to <code class="docutils literal notranslate"><span class="pre">libSystem.dylib</span></code> functions to Linux’s
+<code class="docutils literal notranslate"><span class="pre">glibc</span></code> implementation.</p>
+<p>In order to fix this issue, an approach has been to implement a
+<code class="docutils literal notranslate"><span class="pre">__attribute__((darwin_abi))</span></code> attribute in Clang, similar in what
+<code class="docutils literal notranslate"><span class="pre">__attribute__((ms_abi))</span></code> does today. This allows us to generate “ABI
+wrappers”, like this one for <code class="docutils literal notranslate"><span class="pre">printf</span></code>:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">__attribute__</span><span class="p">((</span><span class="n">darwin_abi</span><span class="p">))</span> <span class="kt">int</span> <span class="n">darwin_aarch64_printf</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">format</span><span class="p">,</span> <span class="p">...)</span> <span class="p">{</span>
+  <span class="kt">va_list</span> <span class="n">args</span><span class="p">;</span>
+  <span class="n">va_start</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">format</span><span class="p">);</span>
+  <span class="k">const</span> <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">vprintf</span><span class="p">(</span><span class="n">format</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
+  <span class="n">va_end</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This feature isn’t merged in Clang/LLVM yet. The patch is <a class="reference external" href="https://reviews.llvm.org/D89490">available here</a>.</p>
+</div>
+<div class="section" id="going-further">
+<h2>Going further<a class="headerlink" href="#going-further" title="Permalink to this headline">¶</a></h2>
+<p>As seen, this sample tool will run very simple binary. It could be extended
+thought to support more “libc” functions.</p>
+<p>That being said, if you are looking for a project that run more complex OSX
+binaries, <a class="reference external" href="https://darlinghq.org/">Darling</a> would be the way to go. It is interesting to note that
+<a class="reference external" href="https://darlinghq.org/">Darling</a> used to have a similar approach than here, but moved to a
+completely different model. If you are curious about this, <a class="reference external" href="http://blog.darlinghq.org/2017/02/the-mach-o-transition-darling-in-past-5.html">this very
+interesting blog post</a>
+explains the reasons why.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="anroid_lib.html" class="btn btn-neutral float-right" title="Running Android Library on Linux" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="miasm.html" class="btn btn-neutral float-left" title="Load binaries in the Miasm VM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, quarkslab.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,488 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Python API reference &mdash; qbdl 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="C++ API reference" href="reference_cxx.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> qbdl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">Use cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference_cxx.html">C++ API reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#main-interface">Main Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loaders">Loaders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#engines">Engines</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#native">Native</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">qbdl</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Python API reference</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-pyqbdl">
+<span id="python-api-reference"></span><h1>Python API reference<a class="headerlink" href="#module-pyqbdl" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="main-interface">
+<h2>Main Interface<a class="headerlink" href="#main-interface" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">pyqbdl</span></code> exposes Python bindings over QBDL.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyqbdl.Arch">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyqbdl.</span></span><span class="sig-name descname"><span class="pre">Arch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.Arch" title="pyqbdl.Arch"><span class="pre">pyqbdl.Arch</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arch</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">lief.ARCHITECTURES</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endianness</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">lief.ENDIANNESS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_64</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pyqbdl.Arch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an Arch object from its architecture, endianness, and whether it is 64 bits</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">arm64_v8a</span> <span class="o">=</span> <span class="n">Arch</span><span class="p">(</span><span class="n">lief</span><span class="o">.</span><span class="n">ARCHITECTURES</span><span class="o">.</span><span class="n">ARM64</span><span class="p">,</span> <span class="n">lief</span><span class="o">.</span><span class="n">ENDIANNESS</span><span class="o">.</span><span class="n">LITTLE</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyqbdl.Arch.arch">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">arch</span></span><a class="headerlink" href="#pyqbdl.Arch.arch" title="Permalink to this definition">¶</a></dt>
+<dd><p>LIEF <a class="reference external" href="https://lief.quarkslab.com/doc/stable/api/python/abstract.html#architectures">Architecture</a>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyqbdl.Arch.endianness">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">endianness</span></span><a class="headerlink" href="#pyqbdl.Arch.endianness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Endianness associated with the underlying architecture:</p>
+<ul class="simple">
+<li><p>lief.ENDIANNESS.LITTLE</p></li>
+<li><p>lief.ENDIANNESS.BIG</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.Arch.from_bin">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">from_bin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bin</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">lief.Binary</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyqbdl.Arch" title="pyqbdl.Arch"><span class="pre">pyqbdl.Arch</span></a><a class="headerlink" href="#pyqbdl.Arch.from_bin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct an Arch object from a LIEF binary object</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyqbdl.Arch.is64">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">is64</span></span><a class="headerlink" href="#pyqbdl.Arch.is64" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the architecture is based on 64 bits</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyqbdl.Loader">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyqbdl.</span></span><span class="sig-name descname"><span class="pre">Loader</span></span><a class="headerlink" href="#pyqbdl.Loader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for all format loaders. See: <a class="reference internal" href="#module-pyqbdl.loaders" title="pyqbdl.loaders"><code class="xref py py-mod docutils literal notranslate"><span class="pre">loaders</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyqbdl.Loader.BIND">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">BIND</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.Loader.BIND" title="pyqbdl.Loader.BIND"><span class="pre">pyqbdl.Loader.BIND</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pyqbdl.Loader.BIND" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enum used to tweak the symbol binding mechanism</p>
+<p>Members:</p>
+<blockquote>
+<div><p>NOT_BIND : Do not bind symbol at all</p>
+<p>NOW : Bind all the symbols while loading the binary</p>
+<p>LAZY : Bind symbols when they are used (i.e lazily)</p>
+</div></blockquote>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyqbdl.Loader.BIND.LAZY">
+<span class="sig-name descname"><span class="pre">LAZY</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;BIND.LAZY:</span> <span class="pre">2&gt;</span></em><a class="headerlink" href="#pyqbdl.Loader.BIND.LAZY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyqbdl.Loader.BIND.NOT_BIND">
+<span class="sig-name descname"><span class="pre">NOT_BIND</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;BIND.NOT_BIND:</span> <span class="pre">0&gt;</span></em><a class="headerlink" href="#pyqbdl.Loader.BIND.NOT_BIND" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyqbdl.Loader.BIND.NOW">
+<span class="sig-name descname"><span class="pre">NOW</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;BIND.NOW:</span> <span class="pre">1&gt;</span></em><a class="headerlink" href="#pyqbdl.Loader.BIND.NOW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyqbdl.Loader.BIND.name">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#pyqbdl.Loader.BIND.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyqbdl.Loader.BIND.value">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#pyqbdl.Loader.BIND.value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyqbdl.Loader.entrypoint">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">entrypoint</span></span><a class="headerlink" href="#pyqbdl.Loader.entrypoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary entrypoint as an <strong>absolute</strong> address</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.Loader.get_address">
+<span class="sig-name descname"><span class="pre">get_address</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyqbdl.Loader.get_address" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>get_address(self: pyqbdl.Loader, sym_name: str) -&gt; int</p></li>
+</ol>
+<p>Return the absolute address associated with the symbol given in parameter</p>
+<ol class="arabic simple" start="2">
+<li><p>get_address(self: pyqbdl.Loader, offset: int) -&gt; int</p></li>
+</ol>
+<p>Get the absolute address form the offset given in parameter</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyqbdl.TargetMemory">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyqbdl.</span></span><span class="sig-name descname"><span class="pre">TargetMemory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.TargetMemory" title="pyqbdl.TargetMemory"><span class="pre">pyqbdl.TargetMemory</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pyqbdl.TargetMemory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Memory model of the targeted system</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.TargetMemory.mmap">
+<span class="sig-name descname"><span class="pre">mmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.TargetMemory" title="pyqbdl.TargetMemory"><span class="pre">pyqbdl.TargetMemory</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptr</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pyqbdl.TargetMemory.mmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used by the loaders to allocate memory pages</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.TargetMemory.mprotect">
+<span class="sig-name descname"><span class="pre">mprotect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.TargetMemory" title="pyqbdl.TargetMemory"><span class="pre">pyqbdl.TargetMemory</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">addr</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">len</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prot</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pyqbdl.TargetMemory.mprotect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used by the loaders to change permissions on a memory area</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.TargetMemory.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.TargetMemory" title="pyqbdl.TargetMemory"><span class="pre">pyqbdl.TargetMemory</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">capsule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pyqbdl.TargetMemory.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used by the loaders to read data from memory</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.TargetMemory.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.TargetMemory" title="pyqbdl.TargetMemory"><span class="pre">pyqbdl.TargetMemory</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">capsule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pyqbdl.TargetMemory.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function used by the loader to write data in memory</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyqbdl.TargetSystem">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyqbdl.</span></span><span class="sig-name descname"><span class="pre">TargetSystem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.TargetSystem" title="pyqbdl.TargetSystem"><span class="pre">pyqbdl.TargetSystem</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.TargetMemory" title="pyqbdl.TargetMemory"><span class="pre">pyqbdl.TargetMemory</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pyqbdl.TargetSystem" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.TargetSystem.base_address_hint">
+<span class="sig-name descname"><span class="pre">base_address_hint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.TargetSystem" title="pyqbdl.TargetSystem"><span class="pre">pyqbdl.TargetSystem</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">binary_base_address</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">virtual_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pyqbdl.TargetSystem.base_address_hint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that returns the preferred based address where the binary should be mapped.
+If it returns 0, the loader can choose any address.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.TargetSystem.supports">
+<span class="sig-name descname"><span class="pre">supports</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.TargetSystem" title="pyqbdl.TargetSystem"><span class="pre">pyqbdl.TargetSystem</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">binary</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">lief.Binary</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pyqbdl.TargetSystem.supports" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that returns whether we support the architecture associated with the given binary</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.TargetSystem.symlink">
+<span class="sig-name descname"><span class="pre">symlink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self:</span> <span class="pre">pyqbdl.TargetSystem</span></em>, <em class="sig-param"><span class="pre">arg0:</span> <span class="pre">QBDL::Loader</span></em>, <em class="sig-param"><span class="pre">arg1:</span> <span class="pre">lief.Symbol</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pyqbdl.TargetSystem.symlink" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback used by the loader to resolve external functions.</p>
+<p>The first parameter of this callback is the <a class="reference internal" href="#pyqbdl.Loader" title="pyqbdl.Loader"><code class="xref py py-class docutils literal notranslate"><span class="pre">Loader</span></code></a> and
+the second parameter is the LIEF’s symbol object to resolve (<code class="docutils literal notranslate"><span class="pre">lief.Symbol</span></code>).</p>
+<p>This callback must return an address (<cite>int</cite>) that will be bound
+to the symbol.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">resolve</span><span class="p">(</span><span class="n">loader</span><span class="p">:</span> <span class="n">pyqbdl</span><span class="o">.</span><span class="n">Loader</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="n">lief</span><span class="o">.</span><span class="n">Symbol</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">symbol</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;printf&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">printf_address</span>
+    <span class="k">return</span> <span class="n">default_address</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-pyqbdl.loaders"></span><div class="section" id="loaders">
+<h2>Loaders<a class="headerlink" href="#loaders" title="Permalink to this headline">¶</a></h2>
+<p>This module contains the different classes used to load binary formats.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyqbdl.loaders.ELF">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyqbdl.loaders.</span></span><span class="sig-name descname"><span class="pre">ELF</span></span><a class="headerlink" href="#pyqbdl.loaders.ELF" title="Permalink to this definition">¶</a></dt>
+<dd><p>ELF loader</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.loaders.ELF.from_file">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">bin_path:</span> <span class="pre">str</span></em>, <em class="sig-param"><span class="pre">engines:</span> <span class="pre">pyqbdl.TargetSystem</span></em>, <em class="sig-param"><span class="pre">bind:</span> <span class="pre">pyqbdl.Loader.BIND</span> <span class="pre">=</span> <span class="pre">&lt;BIND.NOW:</span> <span class="pre">1&gt;</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyqbdl.loaders.ELF" title="pyqbdl.loaders.ELF"><span class="pre">pyqbdl.loaders.ELF</span></a><a class="headerlink" href="#pyqbdl.loaders.ELF.from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load an ELF file from its path on the disk</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.loaders.ELF.is_valid">
+<span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.loaders.ELF" title="pyqbdl.loaders.ELF"><span class="pre">pyqbdl.loaders.ELF</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pyqbdl.loaders.ELF.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether the loader object is consistent</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyqbdl.loaders.MachO">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyqbdl.loaders.</span></span><span class="sig-name descname"><span class="pre">MachO</span></span><a class="headerlink" href="#pyqbdl.loaders.MachO" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mach-O loader</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.loaders.MachO.from_file">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">path:</span> <span class="pre">str</span></em>, <em class="sig-param"><span class="pre">arch:</span> <span class="pre">pyqbdl.Arch</span></em>, <em class="sig-param"><span class="pre">engine:</span> <span class="pre">pyqbdl.TargetSystem</span></em>, <em class="sig-param"><span class="pre">binding:</span> <span class="pre">pyqbdl.Loader.BIND</span> <span class="pre">=</span> <span class="pre">&lt;BIND.NOW:</span> <span class="pre">1&gt;</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyqbdl.loaders.MachO" title="pyqbdl.loaders.MachO"><span class="pre">pyqbdl.loaders.MachO</span></a><a class="headerlink" href="#pyqbdl.loaders.MachO.from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a Mach-O file from its path on the disk</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.loaders.MachO.is_valid">
+<span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.loaders.MachO" title="pyqbdl.loaders.MachO"><span class="pre">pyqbdl.loaders.MachO</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pyqbdl.loaders.MachO.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether the loader is in a consistent state</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.loaders.MachO.take_arch_binary">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">take_arch_binary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fatbin</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">lief.MachO.FatBinary</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arch</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.Arch" title="pyqbdl.Arch"><span class="pre">pyqbdl.Arch</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">lief.MachO.Binary</span><a class="headerlink" href="#pyqbdl.loaders.MachO.take_arch_binary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract a Mach-O binary from a Fat binary that matches the given architecture</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyqbdl.loaders.PE">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyqbdl.loaders.</span></span><span class="sig-name descname"><span class="pre">PE</span></span><a class="headerlink" href="#pyqbdl.loaders.PE" title="Permalink to this definition">¶</a></dt>
+<dd><p>PE loader</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.loaders.PE.from_file">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">bin_path:</span> <span class="pre">str</span></em>, <em class="sig-param"><span class="pre">engines:</span> <span class="pre">pyqbdl.TargetSystem</span></em>, <em class="sig-param"><span class="pre">bind:</span> <span class="pre">pyqbdl.Loader.BIND</span> <span class="pre">=</span> <span class="pre">&lt;BIND.NOW:</span> <span class="pre">1&gt;</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyqbdl.loaders.PE" title="pyqbdl.loaders.PE"><span class="pre">pyqbdl.loaders.PE</span></a><a class="headerlink" href="#pyqbdl.loaders.PE.from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load an PE file from its path on the disk</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.loaders.PE.is_valid">
+<span class="sig-name descname"><span class="pre">is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.loaders.PE" title="pyqbdl.loaders.PE"><span class="pre">pyqbdl.loaders.PE</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pyqbdl.loaders.PE.is_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether the loader object is consistent</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<span class="target" id="module-pyqbdl.engines"></span><div class="section" id="engines">
+<h2>Engines<a class="headerlink" href="#engines" title="Permalink to this headline">¶</a></h2>
+<p>Default engines provided by QBDL</p>
+<span class="target" id="module-pyqbdl.engines.Native"></span><div class="section" id="native">
+<h3>Native<a class="headerlink" href="#native" title="Permalink to this headline">¶</a></h3>
+<p>Native engine that provides that matches the OS on which QBDL is running</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyqbdl.engines.Native.TargetSystem">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pyqbdl.engines.Native.</span></span><span class="sig-name descname"><span class="pre">TargetSystem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.engines.Native.TargetSystem" title="pyqbdl.engines.Native.TargetSystem"><span class="pre">pyqbdl.engines.Native.TargetSystem</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pyqbdl.TargetMemory" title="pyqbdl.TargetMemory"><span class="pre">pyqbdl.TargetMemory</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pyqbdl.engines.Native.TargetSystem" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="pyqbdl.engines.Native.TargetSystem.symlink">
+<span class="sig-name descname"><span class="pre">symlink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">self:</span> <span class="pre">pyqbdl.engines.Native.TargetSystem</span></em>, <em class="sig-param"><span class="pre">arg0:</span> <span class="pre">QBDL::Loader</span></em>, <em class="sig-param"><span class="pre">arg1:</span> <span class="pre">lief.Symbol</span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pyqbdl.engines.Native.TargetSystem.symlink" title="Permalink to this definition">¶</a></dt>
+<dd><p>See <a class="reference internal" href="#pyqbdl.TargetSystem.symlink" title="pyqbdl.TargetSystem.symlink"><code class="xref py py-meth docutils literal notranslate"><span class="pre">pyqbdl.TargetSystem.symlink()</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyqbdl.engines.Native.arch">
+<span class="sig-prename descclassname"><span class="pre">pyqbdl.engines.Native.</span></span><span class="sig-name descname"><span class="pre">arch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyqbdl.Arch" title="pyqbdl.Arch"><span class="pre">pyqbdl.Arch</span></a><a class="headerlink" href="#pyqbdl.engines.Native.arch" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference internal" href="#pyqbdl.Arch" title="pyqbdl.Arch"><code class="xref py py-class docutils literal notranslate"><span class="pre">Arch</span></code></a> object that matches the system on which QBDL is running on.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyqbdl.engines.Native.memory">
+<span class="sig-prename descclassname"><span class="pre">pyqbdl.engines.Native.</span></span><span class="sig-name descname"><span class="pre">memory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pyqbdl.TargetMemory" title="pyqbdl.TargetMemory"><span class="pre">pyqbdl.TargetMemory</span></a><a class="headerlink" href="#pyqbdl.engines.Native.memory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a native implementation of the memory accesses.</p>
+<p>This model assumes that the loader and the loaded binary share
+the same memory space.</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="reference_cxx.html" class="btn btn-neutral float-left" title="C++ API reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, quarkslab.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

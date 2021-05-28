@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Load binaries in the Miasm VM &mdash; qbdl 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Run simple MachO binaries under Linux" href="macho_linux.html" />
+    <link rel="prev" title="Use cases" href="use_cases.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> qbdl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="use_cases.html">Use cases</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Load binaries in the Miasm VM</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#instantiate-the-miasm-emulation-engine">Instantiate the Miasm emulation engine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#define-the-target-machine">Define the target machine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#load-the-actual-binary">Load the actual binary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#last-but-not-least-run-the-code">Last but not least, run the code!</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="macho_linux.html">Run simple MachO binaries under Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="anroid_lib.html">Running Android Library on Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference_cxx.html">C++ API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference_py.html">Python API reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">qbdl</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="use_cases.html">Use cases</a> &raquo;</li>
+        
+      <li>Load binaries in the Miasm VM</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="load-binaries-in-the-miasm-vm">
+<h1>Load binaries in the Miasm VM<a class="headerlink" href="#load-binaries-in-the-miasm-vm" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://miasm.re/">Miasm</a> is a reverse engineering framework which, among many things, provides a
+full emulation engine for many architectures. Miasm already provides loaders
+for PE and ELF binaries for this engine, that loads the binaries into his own
+VM (virtual machine). In this section, we’ll see how QBDL can be used to load
+MachO binaries into the Miasm VM, and then use the emulation engine to actually
+run the binary.</p>
+<p>The full example can be downloaded <a class="reference download internal" download="" href="_downloads/859b0b1d185951213224bf54d40a7f85/miasm_macho_x64.py"><code class="xref download docutils literal notranslate"><span class="pre">here</span></code></a>.</p>
+<div class="section" id="instantiate-the-miasm-emulation-engine">
+<h2>Instantiate the Miasm emulation engine<a class="headerlink" href="#instantiate-the-miasm-emulation-engine" title="Permalink to this headline">¶</a></h2>
+<p>This step is mainly based on <a class="reference external" href="https://github.com/cea-sec/miasm/blob/381d370b73b980190e9a24753a595b043193bec1/example/jitter/x86_64.py">an example in Miasm’s repository</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">miasm.jitter.csts</span> <span class="kn">import</span> <span class="n">PAGE_READ</span><span class="p">,</span> <span class="n">PAGE_WRITE</span><span class="p">,</span> <span class="n">EXCEPT_SYSCALL</span>
+<span class="kn">from</span> <span class="nn">miasm.analysis.machine</span> <span class="kn">import</span> <span class="n">Machine</span>
+<span class="kn">from</span> <span class="nn">miasm.core.locationdb</span> <span class="kn">import</span> <span class="n">LocationDB</span>
+<span class="kn">from</span> <span class="nn">miasm.jitter.csts</span> <span class="kn">import</span> <span class="n">PAGE_READ</span><span class="p">,</span> <span class="n">PAGE_WRITE</span><span class="p">,</span> <span class="n">EXCEPT_SYSCALL</span>
+<span class="kn">from</span> <span class="nn">miasm.core.utils</span> <span class="kn">import</span> <span class="n">pck64</span><span class="p">,</span> <span class="n">upck64</span>
+<span class="kn">from</span> <span class="nn">miasm.os_dep</span> <span class="kn">import</span> <span class="n">linux_stdlib</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">loc_db</span> <span class="o">=</span> <span class="n">LocationDB</span><span class="p">()</span>
+<span class="n">myjit</span> <span class="o">=</span> <span class="n">Machine</span><span class="p">(</span><span class="s2">&quot;x86_64&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">jitter</span><span class="p">(</span><span class="n">loc_db</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">jitter</span><span class="p">)</span>
+<span class="n">myjit</span><span class="o">.</span><span class="n">init_stack</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>What’s happening here is the initialisation of an x64 Miasm emulator. We also
+allocate a simple stack. We can then call <code class="docutils literal notranslate"><span class="pre">print(myjit.vm)</span></code> to see the current
+memory mapping of the VM:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Addr</span>               <span class="n">Size</span>               <span class="n">Access</span> <span class="n">Comment</span>
+<span class="mh">0x1230000</span>          <span class="mh">0x10000</span>            <span class="n">RW_</span>    <span class="n">Stack</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="define-the-target-machine">
+<h2>Define the target machine<a class="headerlink" href="#define-the-target-machine" title="Permalink to this headline">¶</a></h2>
+<p>We will now define a QBDL target machine to inject the loaded binary into the Miasm VM.</p>
+<p>First, we need to define how memory is handled, through the
+creation of a <a class="reference internal" href="reference_py.html#pyqbdl.TargetMemory" title="pyqbdl.TargetMemory"><code class="xref py py-class docutils literal notranslate"><span class="pre">TargetMemory</span></code></a>-based class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MiasmVM</span><span class="p">(</span><span class="n">pyqbdl</span><span class="o">.</span><span class="n">TargetMemory</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vm</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vm</span> <span class="o">=</span> <span class="n">vm</span>
+
+    <span class="k">def</span> <span class="nf">mmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">add_memory_page</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">PAGE_READ</span> <span class="o">|</span> <span class="n">PAGE_WRITE</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span><span class="o">*</span><span class="n">size</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ptr</span>
+
+    <span class="k">def</span> <span class="nf">mprotect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">access</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">set_mem</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ptr</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">vm</span><span class="o">.</span><span class="n">get_mem</span><span class="p">(</span><span class="n">ptr</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is what allows us to load the binary inside Miasm’s VM, and not in the running process.</p>
+<p>We now need to define the final target machine, with the resolution of external
+symbols, through the creation of a <a class="reference internal" href="reference_py.html#pyqbdl.TargetSystem" title="pyqbdl.TargetSystem"><code class="xref py py-class docutils literal notranslate"><span class="pre">TargetSystem</span></code></a>-based class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MiasmSystem</span><span class="p">(</span><span class="n">pyqbdl</span><span class="o">.</span><span class="n">TargetSystem</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jit</span><span class="p">,</span> <span class="n">arch</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">MiasmVM</span><span class="p">(</span><span class="n">jit</span><span class="o">.</span><span class="n">vm</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">externs</span> <span class="o">=</span> <span class="n">ExternFuncs</span><span class="p">(</span><span class="n">jit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arch</span> <span class="o">=</span> <span class="n">arch</span>
+
+    <span class="k">def</span> <span class="nf">symlink</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loader</span><span class="p">,</span> <span class="n">sym</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">externs</span><span class="o">.</span><span class="n">symlink</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="n">sym</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">supports</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bin_</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">pyqbdl</span><span class="o">.</span><span class="n">Arch</span><span class="o">.</span><span class="n">from_bin</span><span class="p">(</span><span class="n">bin_</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">arch</span>
+
+    <span class="k">def</span> <span class="nf">base_address_hint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bin_ba</span><span class="p">,</span> <span class="n">vsize</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">bin_ba</span> 
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">ExternFuncs</span></code> is a class that handles the calls to external functions. What we
+do is adding a breakpoint (on an arbitrary address of your choice) in Miasm’s
+VM for each external symbol. Each of this breakpoint will call a Python
+function that mimic the behavior of the external function. Miasm already
+provides such implementation for a part of C library. This is far from complete
+but will be sufficient for our example.</p>
+<p>Here is the code that handles this part:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">symlink</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loader</span><span class="p">,</span> <span class="n">sym</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sym</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name2addr</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ret</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ret</span>
+        <span class="n">addr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">curAddr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">curAddr</span> <span class="o">+=</span> <span class="mi">8</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name2addr</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">addr</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">jitter</span><span class="o">.</span><span class="n">add_breakpoint</span><span class="p">(</span><span class="n">addr</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">jitter</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">jitter</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">addr</span>
+</pre></div>
+</div>
+<p>When a breakpoint is hit, it will execute the <code class="docutils literal notranslate"><span class="pre">ExternFuncs.call</span></code> function,
+which simply does:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jitter</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Calling </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+        <span class="nb">getattr</span><span class="p">(</span><span class="n">linux_stdlib</span><span class="p">,</span> <span class="s2">&quot;xxx</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)(</span><span class="n">jitter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="load-the-actual-binary">
+<h2>Load the actual binary<a class="headerlink" href="#load-the-actual-binary" title="Permalink to this headline">¶</a></h2>
+<p>This is now time to put all the pieces together and use QBDL to load the binary
+inside our initialized Miasm VM, using a <code class="docutils literal notranslate"><span class="pre">MiasmSystem</span></code> object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">jitter</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Calling </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+        <span class="nb">getattr</span><span class="p">(</span><span class="n">linux_stdlib</span><span class="p">,</span> <span class="s2">&quot;xxx</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)(</span><span class="n">jitter</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>After this initialization, we can see that a new mapping appeared in the Miasm
+VM, in <code class="docutils literal notranslate"><span class="pre">0x100000000</span></code> (which is the base address in our MachO example binary):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Addr</span>               <span class="n">Size</span>               <span class="n">Access</span> <span class="n">Comment</span>
+<span class="mh">0x1230000</span>          <span class="mh">0x10000</span>            <span class="n">RW_</span>    <span class="n">Stack</span>
+<span class="mh">0x100000000</span>        <span class="mh">0x3000</span>             <span class="n">RW_</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="last-but-not-least-run-the-code">
+<h2>Last but not least, run the code!<a class="headerlink" href="#last-but-not-least-run-the-code" title="Permalink to this headline">¶</a></h2>
+<p>The last thing we need to do is to tell Miasm to run the code at <code class="docutils literal notranslate"><span class="pre">entrypoint</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">code_sentinelle</span><span class="p">(</span><span class="n">jitter</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[+] End!&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+<span class="n">myjit</span><span class="o">.</span><span class="n">push_uint64_t</span><span class="p">(</span><span class="mh">0x1337beef</span><span class="p">)</span>
+<span class="n">myjit</span><span class="o">.</span><span class="n">add_breakpoint</span><span class="p">(</span><span class="mh">0x1337beef</span><span class="p">,</span> <span class="n">code_sentinelle</span><span class="p">)</span>
+<span class="n">myjit</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">loader</span><span class="o">.</span><span class="n">entrypoint</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Using <code class="xref download docutils literal notranslate"><span class="pre">this</span> <span class="pre">example</span> <span class="pre">MachO</span> <span class="pre">binary</span></code>, which
+is supposed to print the <code class="docutils literal notranslate"><span class="pre">coucou</span></code> string, here is the output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Addr               Size               Access Comment
+0x1230000          0x10000            RW_    Stack
+
+Loading examples/macho-o-x86-64-hello.bin
+Virtual size: 0x3000
+Mapping __PAGEZERO - 0x0
+Mapping __TEXT - 0x0
+Mapping __DATA - 0x1000
+Mapping __LINKEDIT - 0x2000
+Symbol dyld_stub_binder resolves to address 0x700000000000, stored at address 0x100001000
+Symbol _puts resolves to address 0x700000000008, stored at address 0x100001010
+Addr               Size               Access Comment
+0x1230000          0x10000            RW_    Stack
+0x100000000        0x3000             RW_
+
+Calling _puts
+coucou
+[+] End!
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="macho_linux.html" class="btn btn-neutral float-right" title="Run simple MachO binaries under Linux" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="use_cases.html" class="btn btn-neutral float-left" title="Use cases" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, quarkslab.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
