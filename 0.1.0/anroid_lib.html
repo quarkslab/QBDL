@@ -1,0 +1,322 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Running Android Library on Linux &mdash; qbdl 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="C++ API reference" href="reference_cxx.html" />
+    <link rel="prev" title="Run simple MachO binaries under Linux" href="macho_linux.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> qbdl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="use_cases.html">Use cases</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="miasm.html">Load binaries in the Miasm VM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macho_linux.html">Run simple MachO binaries under Linux</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Running Android Library on Linux</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#loading-the-library-with-qbdl">Loading the Library with QBDL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#symbols-resolution">Symbols resolution</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-the-whitebox-function">Running the Whitebox Function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference_cxx.html">C++ API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference_py.html">Python API reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">qbdl</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="use_cases.html">Use cases</a> &raquo;</li>
+        
+      <li>Running Android Library on Linux</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="running-android-library-on-linux">
+<h1>Running Android Library on Linux<a class="headerlink" href="#running-android-library-on-linux" title="Permalink to this headline">¶</a></h1>
+<p>The blog post <a class="reference external" href="https://blog.quarkslab.com/when-sidechannelmarvels-meet-lief.html">When SideChannelMarvels meets LIEF</a> describes a technique to load an Android x86-64
+library on Linux. Since Linux and Android share almost the same ABI <a class="footnote-reference brackets" href="#id2" id="id1">1</a>, the technique described in the blog post consists
+in patching ELF dependencies and symbol versions so that, for instance, the <code class="docutils literal notranslate"><span class="pre">libc.so</span></code> library on Android is resolved
+into <code class="docutils literal notranslate"><span class="pre">libc.so.6</span></code> on Linux.
+After having <strong>statically</strong> patched the library, the library can be loaded with <code class="docutils literal notranslate"><span class="pre">dlopen()</span></code>.</p>
+<p>This section introduces another way to load the Android library on Linux with QBDL.</p>
+<div class="section" id="loading-the-library-with-qbdl">
+<h2>Loading the Library with QBDL<a class="headerlink" href="#loading-the-library-with-qbdl" title="Permalink to this headline">¶</a></h2>
+<p>Since the given Android library aims at being running on our native Linux system, we can use the <em>native</em>
+memory model in which we share the same memory space as the loaded library:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">auto</span> <span class="n">mem</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">QBDL</span><span class="o">::</span><span class="n">Engines</span><span class="o">::</span><span class="n">Native</span><span class="o">::</span><span class="n">TargetMemory</span><span class="o">&gt;</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>With this memory model, the loader will use the classical <code class="docutils literal notranslate"><span class="pre">mmap(),</span> <span class="pre">read(),</span> <span class="pre">write(),</span> <span class="pre">...</span></code> functions
+to load the Android library.</p>
+<p>Regarding the targeted system, we share the same native architecture <code class="docutils literal notranslate"><span class="pre">x86-64</span></code> so that we can inherit from
+<a class="reference internal" href="reference_cxx.html#_CPPv4N4QBDL7Engines6Native12TargetSystemE" title="QBDL::Engines::Native::TargetSystem"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">QBDL::Engines::Native::TargetSystem</span></code></a> and overload the symbol resolution function (<code class="docutils literal notranslate"><span class="pre">symlink</span></code>):</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nc">FinalTargetSystem</span><span class="o">:</span> <span class="k">public</span> <span class="n">QBDL</span><span class="o">::</span><span class="n">Engines</span><span class="o">::</span><span class="n">Native</span><span class="o">::</span><span class="n">TargetSystem</span> <span class="p">{</span>
+ <span class="k">using</span> <span class="n">QBDL</span><span class="o">::</span><span class="n">Engines</span><span class="o">::</span><span class="n">Native</span><span class="o">::</span><span class="n">TargetSystem</span><span class="o">::</span><span class="n">TargetSystem</span><span class="p">;</span>
+
+ <span class="kt">uint64_t</span> <span class="nf">symlink</span><span class="p">(</span><span class="n">Loader</span> <span class="o">&amp;</span><span class="n">loader</span><span class="p">,</span> <span class="k">const</span> <span class="n">LIEF</span><span class="o">::</span><span class="n">Symbol</span> <span class="o">&amp;</span><span class="n">sym</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+   <span class="c1">// Function that resolves library&#39;s imported symbols</span>
+ <span class="p">}</span>
+
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>The library can then be loaded with <a class="reference internal" href="reference_cxx.html#_CPPv4N4QBDL7Loaders3ELF9from_fileEPKcR12TargetSystem4BIND" title="QBDL::Loaders::ELF::from_file"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">QBDL::Loaders::ELF::from_file()</span></code></a>:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">QBDL</span><span class="o">::</span><span class="n">ELF</span><span class="o">::</span><span class="n">Loader</span><span class="o">&gt;</span> <span class="n">loader</span> <span class="o">=</span> <span class="n">QBDL</span><span class="o">::</span><span class="n">Loaders</span><span class="o">::</span><span class="n">ELF</span><span class="o">::</span><span class="n">from_file</span><span class="p">(</span>
+  <span class="s">&quot;SECCON2016_whitebox.so&quot;</span><span class="p">,</span>
+  <span class="o">*</span><span class="n">system</span><span class="p">,</span>
+  <span class="n">QBDL</span><span class="o">::</span><span class="n">Loader</span><span class="o">::</span><span class="n">BIND</span><span class="o">::</span><span class="n">NOW</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="symbols-resolution">
+<h2>Symbols resolution<a class="headerlink" href="#symbols-resolution" title="Permalink to this headline">¶</a></h2>
+<p>As we loaded the library with the <code class="docutils literal notranslate"><span class="pre">BIND::NOW</span></code> option, all the imported symbols are resolved at once
+when the library is loaded.</p>
+<p>To resolve the symbols, the loader calls our overloaded function <code class="docutils literal notranslate"><span class="pre">symlink()</span></code> defined in the structure
+<code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">FinalTargetSystem</span></code>.</p>
+<p>The library imports only few symbols (<code class="docutils literal notranslate"><span class="pre">__cxa_finalize</span></code>, <code class="docutils literal notranslate"><span class="pre">__cxa_atexit</span></code>, <code class="docutils literal notranslate"><span class="pre">__stack_chk_fail</span></code>) which are all
+exported by the <code class="docutils literal notranslate"><span class="pre">libc</span></code>. Therefore, we could write this (non-generic) resolver:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="o">*</span> <span class="n">libc_hdl</span> <span class="o">=</span> <span class="n">dlopen</span><span class="p">(</span><span class="s">&quot;libc.so.6&quot;</span><span class="p">,</span> <span class="n">RTLD_NOW</span><span class="p">);</span>
+
+<span class="kt">uint64_t</span> <span class="nf">symlink</span><span class="p">(</span><span class="n">Loader</span> <span class="o">&amp;</span><span class="n">loader</span><span class="p">,</span> <span class="k">const</span> <span class="n">LIEF</span><span class="o">::</span><span class="n">Symbol</span> <span class="o">&amp;</span><span class="n">sym</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Resolving %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">sym</span><span class="p">.</span><span class="n">name</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+  <span class="k">return</span> <span class="n">dlsym</span><span class="p">(</span><span class="n">libc_hdl</span><span class="p">,</span> <span class="n">sym</span><span class="p">.</span><span class="n">name</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-the-whitebox-function">
+<h2>Running the Whitebox Function<a class="headerlink" href="#running-the-whitebox-function" title="Permalink to this headline">¶</a></h2>
+<p>Once the library loaded, we get a pointer on the whiteboxed function that performs encryption
+using <a class="reference internal" href="reference_cxx.html#_CPPv4NK4QBDL6Loader11get_addressERKNSt6stringE" title="QBDL::Loader::get_address"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">QBDL::Loader::get_address()</span></code></a>:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="k">const</span> <span class="kt">uintptr_t</span> <span class="n">fcn_addr</span> <span class="o">=</span> <span class="n">loader</span><span class="o">-&gt;</span><span class="n">get_address</span><span class="p">(</span><span class="s">&quot;_Z48TfcqPqf1lNhu0DC2qGsAAeML0SEmOBYX4jpYUnyT8qYWIlEqPhS_&quot;</span><span class="p">);</span>
+<span class="k">using</span> <span class="n">wb_fcn_t</span> <span class="o">=</span> <span class="kt">uint64_t</span><span class="p">(</span><span class="o">*</span><span class="p">)(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">aes_128_encrypt</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">wb_fcn_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">fcn_addr</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Finally, we can use the function at our convenience:</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">plaintext</span><span class="p">[</span><span class="mi">16</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">ciphertext</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span>
+
+<span class="n">aes_128_encrypt</span><span class="p">(</span><span class="n">plaintext</span><span class="p">,</span> <span class="n">ciphertext</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span> <span class="nl">c</span> <span class="p">:</span> <span class="n">ciphertext</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%02x &quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>It results in this kind of output:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Loading examples/SECCON2016_whitebox.so</span>
+<span class="go">this: 0x55c9513a3db0</span>
+<span class="go">Virtual size: 0x2d000</span>
+<span class="go">mmap(0x0, 0x2d000): 0x7f7e60cd4000</span>
+<span class="go">Mapping LOAD - 0x0</span>
+<span class="go">Mapping LOAD - 0x2bce8</span>
+<span class="go">Resolving __cxa_atexit</span>
+<span class="go">Resolving __cxa_finalize</span>
+<span class="go">Resolving __stack_chk_fail</span>
+<span class="go">8c f2 fb f4 21 75 fe 04 9a d6 3b e8 00 2e 9e 5c</span>
+</pre></div>
+</div>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p><a class="reference external" href="https://developer.android.com/ndk/guides/abis">https://developer.android.com/ndk/guides/abis</a></p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="reference_cxx.html" class="btn btn-neutral float-right" title="C++ API reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="macho_linux.html" class="btn btn-neutral float-left" title="Run simple MachO binaries under Linux" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, quarkslab.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

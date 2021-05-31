@@ -1,0 +1,1015 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>C++ API reference &mdash; qbdl 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Python API reference" href="reference_py.html" />
+    <link rel="prev" title="Running Android Library on Linux" href="anroid_lib.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> qbdl
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="use_cases.html">Use cases</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">C++ API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference_py.html">Python API reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">qbdl</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>C++ API reference</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="c-api-reference">
+<h1>C++ API reference<a class="headerlink" href="#c-api-reference" title="Permalink to this headline">¶</a></h1>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv44QBDL">
+<span id="_CPPv34QBDL"></span><span id="_CPPv24QBDL"></span><span id="QBDL"></span><span class="target" id="namespaceQBDL"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QBDL</span></span></span><a class="headerlink" href="#_CPPv44QBDL" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL4ArchE">
+<span id="_CPPv3N4QBDL4ArchE"></span><span id="_CPPv2N4QBDL4ArchE"></span><span id="QBDL::Arch"></span><span class="target" id="structQBDL_1_1Arch"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Arch</span></span></span><a class="headerlink" href="#_CPPv4N4QBDL4ArchE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;arch.hpp&gt;</em><p>Define a binary architecture</p>
+<p>It is based on LIEF’s description of an architecture. Based on this description, we need three fields to completely target a binary architecture:</p>
+<p><ul class="simple">
+<li><p>the architecture as per LIEF’s description</p></li>
+<li><p>the endianness of the CPU</p></li>
+<li><p>whether the CPU is 64bit</p></li>
+</ul>
+</p>
+<p>This is a bit unfortunate that LIEF does not have a simple enum that would map every possible architectures.</p>
+<p>Here are a few common architectures description that are used:</p>
+<p><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">const</span> <span class="n">auto</span> <span class="n">x86</span> <span class="o">=</span> <span class="n">Arch</span><span class="p">{</span><span class="n">LIEF</span><span class="p">::</span><span class="n">ARCHITECTURES</span><span class="p">::</span><span class="n">X86</span><span class="p">,</span> <span class="n">LIEF</span><span class="p">::</span><span class="n">ENDIANNESS</span><span class="p">::</span><span class="n">LITTLE</span><span class="p">,</span>
+<span class="n">false</span><span class="p">};</span> <span class="n">const</span> <span class="n">auto</span> <span class="n">x64</span> <span class="o">=</span> <span class="n">Arch</span><span class="p">{</span><span class="n">LIEF</span><span class="p">::</span><span class="n">ARCHITECTURES</span><span class="p">::</span><span class="n">X86</span><span class="p">,</span>
+<span class="n">LIEF</span><span class="p">::</span><span class="n">ENDIANNESS</span><span class="p">::</span><span class="n">LITTLE</span><span class="p">,</span> <span class="n">true</span><span class="p">};</span> <span class="n">const</span> <span class="n">auto</span> <span class="n">armv8</span> <span class="o">=</span>
+<span class="n">Arch</span><span class="p">{</span><span class="n">LIEF</span><span class="p">::</span><span class="n">ARCHITECTURES</span><span class="p">::</span><span class="n">ARM64</span><span class="p">,</span> <span class="n">LIEF</span><span class="p">::</span><span class="n">ENDIANNESS</span><span class="p">::</span><span class="n">LITTLE</span><span class="p">,</span> <span class="n">true</span><span class="p">};</span> 
+</pre></div>
+</div>
+ </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL4Arch4ArchEN4LIEF13ARCHITECTURESEN4LIEF10ENDIANNESSEb">
+<span id="_CPPv3N4QBDL4Arch4ArchEN4LIEF13ARCHITECTURESEN4LIEF10ENDIANNESSEb"></span><span id="_CPPv2N4QBDL4Arch4ArchEN4LIEF13ARCHITECTURESEN4LIEF10ENDIANNESSEb"></span><span id="QBDL::Arch::Arch__LIEF::ARCHITECTURES.LIEF::ENDIANNESS.bCE"></span><span class="target" id="structQBDL_1_1Arch_1a5e58f284636ecd31af030ad8a7ee84d9"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Arch</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ARCHITECTURES</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">arch</span></span>, <span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ENDIANNESS</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">endianness</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">is64</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL4Arch4ArchEN4LIEF13ARCHITECTURESEN4LIEF10ENDIANNESSEb" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL4ArcheqERK4Arch">
+<span id="_CPPv3NK4QBDL4ArcheqERK4Arch"></span><span id="_CPPv2NK4QBDL4ArcheqERK4Arch"></span><span id="QBDL::Arch::eq-operator__ArchCRCCE"></span><span class="target" id="structQBDL_1_1Arch_1a25d9ec2375f7bf0f9cfbcf9c16083144"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">==</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N4QBDL4ArchE" title="QBDL::Arch"><span class="n"><span class="pre">Arch</span></span></a><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">o</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4QBDL4ArcheqERK4Arch" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL4ArchneERK4Arch">
+<span id="_CPPv3NK4QBDL4ArchneERK4Arch"></span><span id="_CPPv2NK4QBDL4ArchneERK4Arch"></span><span id="QBDL::Arch::neq-operator__ArchCRCCE"></span><span class="target" id="structQBDL_1_1Arch_1a7d9173e1d8fdf6e1846b67e5dcc4b89b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">!=</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N4QBDL4ArchE" title="QBDL::Arch"><span class="n"><span class="pre">Arch</span></span></a><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">o</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4QBDL4ArchneERK4Arch" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL4Arch4archE">
+<span id="_CPPv3N4QBDL4Arch4archE"></span><span id="_CPPv2N4QBDL4Arch4archE"></span><span id="QBDL::Arch::arch__LIEF::ARCHITECTURES"></span><span class="target" id="structQBDL_1_1Arch_1aa3a4e9fb3e5eb749cf02f07f891859c6"></span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ARCHITECTURES</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">arch</span></span></span><a class="headerlink" href="#_CPPv4N4QBDL4Arch4archE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Architecture as defined by LIEF. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL4Arch10endiannessE">
+<span id="_CPPv3N4QBDL4Arch10endiannessE"></span><span id="_CPPv2N4QBDL4Arch10endiannessE"></span><span id="QBDL::Arch::endianness__LIEF::ENDIANNESS"></span><span class="target" id="structQBDL_1_1Arch_1a1e49f96bc4648fa92a3db3b25983cb5f"></span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ENDIANNESS</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">endianness</span></span></span><a class="headerlink" href="#_CPPv4N4QBDL4Arch10endiannessE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Endianness of the binary’s architecture </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL4Arch4is64E">
+<span id="_CPPv3N4QBDL4Arch4is64E"></span><span id="_CPPv2N4QBDL4Arch4is64E"></span><span id="QBDL::Arch::is64__b"></span><span class="target" id="structQBDL_1_1Arch_1a6918034598b9fbdf256191cd1b05adf4"></span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is64</span></span></span><a class="headerlink" href="#_CPPv4N4QBDL4Arch4is64E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Whether this is a 64bit CPU </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL4Arch8from_binERKN4LIEF6BinaryE">
+<span id="_CPPv3N4QBDL4Arch8from_binERKN4LIEF6BinaryE"></span><span id="_CPPv2N4QBDL4Arch8from_binERKN4LIEF6BinaryE"></span><span id="QBDL::Arch::from_bin__LIEF::BinaryCR"></span><span class="target" id="structQBDL_1_1Arch_1a1483e82e7d120a5f7a8e3995a045d0de"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4QBDL4ArchE" title="QBDL::Arch"><span class="n"><span class="pre">Arch</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">from_bin</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Binary</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bin</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL4Arch8from_binERKN4LIEF6BinaryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Construct an <code class="docutils literal notranslate"><a class="reference internal" href="#structQBDL_1_1Arch"><span class="std std-ref"><span class="pre">Arch</span></span></a></code> object from a LIEF binary object </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL12TargetMemoryE">
+<span id="_CPPv3N4QBDL12TargetMemoryE"></span><span id="_CPPv2N4QBDL12TargetMemoryE"></span><span id="QBDL::TargetMemory"></span><span class="target" id="classQBDL_1_1TargetMemory"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TargetMemory</span></span></span><a class="headerlink" href="#_CPPv4N4QBDL12TargetMemoryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;Engine.hpp&gt;</em><p>Describe the target memory the binary must be loaded into.</p>
+<p>This abstraction helps target many different memory system.</p>
+<p>To describe your target, you need to subclass this and implement the pure virtual functions. See their documentation below. </p>
+<p>Subclassed by <a class="reference internal" href="#classQBDL_1_1Engines_1_1Native_1_1TargetMemory"><span class="std std-ref">QBDL::Engines::Native::TargetMemory</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL12TargetMemoryD0Ev">
+<span id="_CPPv3N4QBDL12TargetMemoryD0Ev"></span><span id="_CPPv2N4QBDL12TargetMemoryD0Ev"></span><span id="QBDL::TargetMemory::~TargetMemory"></span><span class="target" id="classQBDL_1_1TargetMemory_1aab8c769b2ad24cda14c00071c0e0846c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~TargetMemory</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N4QBDL12TargetMemoryD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL12TargetMemory4mmapE8uint64_t6size_t">
+<span id="_CPPv3N4QBDL12TargetMemory4mmapE8uint64_t6size_t"></span><span id="_CPPv2N4QBDL12TargetMemory4mmapE8uint64_t6size_t"></span><span id="QBDL::TargetMemory::mmap__uint64_t.s"></span><span class="target" id="classQBDL_1_1TargetMemory_1a25357e1f68b0b71d254635b29c6c08a9"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mmap</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">hint</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N4QBDL12TargetMemory4mmapE8uint64_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reserve a region of memory in the targeted memory space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hint</strong> – <strong>[in]</strong> A hint as to where the address should be. 0 means any address. </p></li>
+<li><p><strong>len</strong> – <strong>[in]</strong> Size of the memory region to reserve </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>0 if an error occurred, any value otherwise. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL12TargetMemory8mprotectE8uint64_t6size_ti">
+<span id="_CPPv3N4QBDL12TargetMemory8mprotectE8uint64_t6size_ti"></span><span id="_CPPv2N4QBDL12TargetMemory8mprotectE8uint64_t6size_ti"></span><span id="QBDL::TargetMemory::mprotect__uint64_t.s.i"></span><span class="target" id="classQBDL_1_1TargetMemory_1a9b850785624d6c3a267c3636d7fcc73b"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mprotect</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">addr</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">prot</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N4QBDL12TargetMemory8mprotectE8uint64_t6size_ti" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Change permissions on a region of memory. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL12TargetMemory5writeE8uint64_tPKv6size_t">
+<span id="_CPPv3N4QBDL12TargetMemory5writeE8uint64_tPKv6size_t"></span><span id="_CPPv2N4QBDL12TargetMemory5writeE8uint64_tPKv6size_t"></span><span id="QBDL::TargetMemory::write__uint64_t.voidCP.s"></span><span class="target" id="classQBDL_1_1TargetMemory_1a6a7c5bf1c60ef09e2326955e3d7b32e0"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">addr</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">buf</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N4QBDL12TargetMemory5writeE8uint64_tPKv6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write data to a memory region in the targeted memory space.</p>
+<p>This always succeeds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>addr</strong> – Virtual absolute address to write data into </p></li>
+<li><p><strong>buf</strong> – Pointer to the data to write </p></li>
+<li><p><strong>len</strong> – Length of the data to write </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL12TargetMemory4readEPv8uint64_t6size_t">
+<span id="_CPPv3N4QBDL12TargetMemory4readEPv8uint64_t6size_t"></span><span id="_CPPv2N4QBDL12TargetMemory4readEPv8uint64_t6size_t"></span><span id="QBDL::TargetMemory::read__voidP.uint64_t.s"></span><span class="target" id="classQBDL_1_1TargetMemory_1a6ba375bec8ba450bec2465257827598c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">dst</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">addr</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N4QBDL12TargetMemory4readEPv8uint64_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read data from a memory region in the targeted memory space.</p>
+<p>This always succeeds. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dst</strong> – A pointer to the buffer that will receive the data </p></li>
+<li><p><strong>addr</strong> – Virtual absolute address to read the data from </p></li>
+<li><p><strong>len</strong> – Length of the data to read </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL12TargetMemory9write_ptrERK4Arch8uint64_t8uint64_t">
+<span id="_CPPv3N4QBDL12TargetMemory9write_ptrERK4Arch8uint64_t8uint64_t"></span><span id="_CPPv2N4QBDL12TargetMemory9write_ptrERK4Arch8uint64_t8uint64_t"></span><span id="QBDL::TargetMemory::write_ptr__ArchCR.uint64_t.uint64_t"></span><span class="target" id="classQBDL_1_1TargetMemory_1a1cd715d9c36157a12316337b7debff05"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_ptr</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N4QBDL4ArchE" title="QBDL::Arch"><span class="n"><span class="pre">Arch</span></span></a><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">arch</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">addr</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL12TargetMemory9write_ptrERK4Arch8uint64_t8uint64_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Convenience function that write a pointer value to the targeted memory space, given an architecture.</p>
+<p>No efforts are made to verify that <code class="docutils literal notranslate"><span class="pre">arch</span></code> matches what <a class="reference internal" href="#classQBDL_1_1TargetMemory"><span class="std std-ref">QBDL::TargetMemory</span></a> expects.</p>
+<p>This always succeeds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arch</strong> – <strong>[in]</strong> Targeted architecture </p></li>
+<li><p><strong>addr</strong> – <strong>[in]</strong> Virtual absolute address to write the pointer value into </p></li>
+<li><p><strong>ptr</strong> – <strong>[in]</strong> Value of the address to write </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL12TargetMemory8read_ptrERK4Arch8uint64_t">
+<span id="_CPPv3N4QBDL12TargetMemory8read_ptrERK4Arch8uint64_t"></span><span id="_CPPv2N4QBDL12TargetMemory8read_ptrERK4Arch8uint64_t"></span><span id="QBDL::TargetMemory::read_ptr__ArchCR.uint64_t"></span><span class="target" id="classQBDL_1_1TargetMemory_1ab48e2bd2da15ecee65095962fa0316ee"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_ptr</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N4QBDL4ArchE" title="QBDL::Arch"><span class="n"><span class="pre">Arch</span></span></a><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">arch</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">addr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL12TargetMemory8read_ptrERK4Arch8uint64_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Convenience function that reads a pointer value from the targeted memory space, given an architecture.</p>
+<p>No efforts are made to verify that <code class="docutils literal notranslate"><span class="pre">arch</span></code> matches what <a class="reference internal" href="#classQBDL_1_1TargetMemory"><span class="std std-ref">QBDL::TargetMemory</span></a> expects.</p>
+<p>This always succeeds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arch</strong> – <strong>[in]</strong> Targeted architecture </p></li>
+<li><p><strong>addr</strong> – <strong>[in]</strong> Virtual absolute address to read the pointer value from </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The read pointer value </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL12TargetSystemE">
+<span id="_CPPv3N4QBDL12TargetSystemE"></span><span id="_CPPv2N4QBDL12TargetSystemE"></span><span id="QBDL::TargetSystem"></span><span class="target" id="classQBDL_1_1TargetSystem"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TargetSystem</span></span></span><a class="headerlink" href="#_CPPv4N4QBDL12TargetSystemE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;Engine.hpp&gt;</em><p>Describe the target system the binary must be loaded into.</p>
+<p>This abstraction helps describe:</p>
+<p><ul class="simple">
+<li><p>how external symbol are resolved</p></li>
+<li><p>if a system supports a given binary (mainly used to choose a binary in fat MachO files)</p></li>
+<li><p>how memory is handled (through a <code class="docutils literal notranslate"><a class="reference internal" href="#classQBDL_1_1TargetMemory"><span class="std std-ref"><span class="pre">TargetMemory</span></span></a></code> object)</p></li>
+<li><p>the base address that must be used when mapping the binary using <code class="docutils literal notranslate"><a class="reference internal" href="#classQBDL_1_1TargetMemory_1a25357e1f68b0b71d254635b29c6c08a9"><span class="std std-ref"><span class="pre">TargetMemory::mmap</span></span></a></code> </p></li>
+</ul>
+</p>
+<p>Subclassed by <a class="reference internal" href="#classQBDL_1_1Engines_1_1Native_1_1TargetSystem"><span class="std std-ref">QBDL::Engines::Native::TargetSystem</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL12TargetSystem12TargetSystemER12TargetMemory">
+<span id="_CPPv3N4QBDL12TargetSystem12TargetSystemER12TargetMemory"></span><span id="_CPPv2N4QBDL12TargetSystem12TargetSystemER12TargetMemory"></span><span id="QBDL::TargetSystem::TargetSystem__TargetMemoryR"></span><span class="target" id="classQBDL_1_1TargetSystem_1a0a0e33defa96fad79566eef8bded87a4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TargetSystem</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N4QBDL12TargetMemoryE" title="QBDL::TargetMemory"><span class="n"><span class="pre">TargetMemory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mem</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL12TargetSystem12TargetSystemER12TargetMemory" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL12TargetSystemD0Ev">
+<span id="_CPPv3N4QBDL12TargetSystemD0Ev"></span><span id="_CPPv2N4QBDL12TargetSystemD0Ev"></span><span id="QBDL::TargetSystem::~TargetSystem"></span><span class="target" id="classQBDL_1_1TargetSystem_1a177317b02c5d1e751fc4958eaba32f1a"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~TargetSystem</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N4QBDL12TargetSystemD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL12TargetSystem7symlinkER6LoaderRKN4LIEF6SymbolE">
+<span id="_CPPv3N4QBDL12TargetSystem7symlinkER6LoaderRKN4LIEF6SymbolE"></span><span id="_CPPv2N4QBDL12TargetSystem7symlinkER6LoaderRKN4LIEF6SymbolE"></span><span id="QBDL::TargetSystem::symlink__LoaderR.LIEF::SymbolCR"></span><span class="target" id="classQBDL_1_1TargetSystem_1a5f6efe1cf29371ddfbceb00ded70e90f"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">symlink</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N4QBDL6LoaderE" title="QBDL::Loader"><span class="n"><span class="pre">Loader</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">loader</span></span>, <span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Symbol</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sym</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N4QBDL12TargetSystem7symlinkER6LoaderRKN4LIEF6SymbolE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Resolve external functions</p>
+<p>This function returns the absolute virtual address of an external symbol. This is used by a <a class="reference internal" href="#classQBDL_1_1Loader"><span class="std std-ref">QBDL::Loader</span></a> object to write the address of external symbol into the targeted memory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>loader</strong> – <strong>[in]</strong> The current loader object that is calling this function </p></li>
+<li><p><strong>sym</strong> – <strong>[in]</strong> The symbol to resolve </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The absolute virtual address of <code class="docutils literal notranslate"><span class="pre">sym</span></code> </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL12TargetSystem8supportsERKN4LIEF6BinaryE">
+<span id="_CPPv3N4QBDL12TargetSystem8supportsERKN4LIEF6BinaryE"></span><span id="_CPPv2N4QBDL12TargetSystem8supportsERKN4LIEF6BinaryE"></span><span id="QBDL::TargetSystem::supports__LIEF::BinaryCR"></span><span class="target" id="classQBDL_1_1TargetSystem_1a8442426adfacbb5d78f7c6ef08dfd508"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">supports</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Binary</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bin</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N4QBDL12TargetSystem8supportsERKN4LIEF6BinaryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Verify that the target system supports a binary.</p>
+<p>This is mainly used by the <a class="reference internal" href="#classQBDL_1_1Loaders_1_1MachO"><span class="std std-ref">QBDL::Loaders::MachO</span></a> loader to select a valid binary within a universal MachO.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>bin</strong> – <strong>[in]</strong> Binary to verify </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>true iif the target system can handle this binary. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL12TargetSystem17base_address_hintE8uint64_t8uint64_t">
+<span id="_CPPv3N4QBDL12TargetSystem17base_address_hintE8uint64_t8uint64_t"></span><span id="_CPPv2N4QBDL12TargetSystem17base_address_hintE8uint64_t8uint64_t"></span><span id="QBDL::TargetSystem::base_address_hint__uint64_t.uint64_t"></span><span class="target" id="classQBDL_1_1TargetSystem_1aaeabf23fb52b4e4c95864dabaad27224"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">base_address_hint</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">binary_base_address</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">virtual_size</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N4QBDL12TargetSystem17base_address_hintE8uint64_t8uint64_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the preferred based address where the binary should be mapped.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>binary_base_address</strong> – <strong>[in]</strong> The base address extracted from the binary header </p></li>
+<li><p><strong>virtual_size</strong> – <strong>[in]</strong> The complete size the binary would take in memory (including all segments contiguously mapped with their relative offsets respected). </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>0 if the loader can choose any address, otherwise a hint as to what the base address should be. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL12TargetSystem3memEv">
+<span id="_CPPv3N4QBDL12TargetSystem3memEv"></span><span id="_CPPv2N4QBDL12TargetSystem3memEv"></span><span id="QBDL::TargetSystem::mem"></span><span class="target" id="classQBDL_1_1TargetSystem_1a06ef8e96e9fac6b877148f62cfca3c17"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4QBDL12TargetMemoryE" title="QBDL::TargetMemory"><span class="n"><span class="pre">TargetMemory</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">mem</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL12TargetSystem3memEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL6LoaderE">
+<span id="_CPPv3N4QBDL6LoaderE"></span><span id="_CPPv2N4QBDL6LoaderE"></span><span id="QBDL::Loader"></span><span class="target" id="classQBDL_1_1Loader"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Loader</span></span></span><a class="headerlink" href="#_CPPv4N4QBDL6LoaderE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;Loader.hpp&gt;</em><p>Base class for a <a class="reference internal" href="#classQBDL_1_1Loader"><span class="std std-ref">Loader</span></a> </p>
+<p>Subclassed by <a class="reference internal" href="#classQBDL_1_1Loaders_1_1ELF"><span class="std std-ref">QBDL::Loaders::ELF</span></a>, <a class="reference internal" href="#classQBDL_1_1Loaders_1_1MachO"><span class="std std-ref">QBDL::Loaders::MachO</span></a>, <a class="reference internal" href="#classQBDL_1_1Loaders_1_1PE"><span class="std std-ref">QBDL::Loaders::PE</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp enum">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL6Loader4BINDE">
+<span id="_CPPv3N4QBDL6Loader4BINDE"></span><span id="_CPPv2N4QBDL6Loader4BINDE"></span><span class="target" id="classQBDL_1_1Loader_1abfd6484a08e654655fdee92953057af3"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BIND</span></span></span><a class="headerlink" href="#_CPPv4N4QBDL6Loader4BINDE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL6Loader4BIND8NOT_BINDE">
+<span id="_CPPv3N4QBDL6Loader4BIND8NOT_BINDE"></span><span id="_CPPv2N4QBDL6Loader4BIND8NOT_BINDE"></span><span class="target" id="classQBDL_1_1Loader_1abfd6484a08e654655fdee92953057af3a49449df96a3ae847c39e9675bdc48e12"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NOT_BIND</span></span></span><a class="headerlink" href="#_CPPv4N4QBDL6Loader4BIND8NOT_BINDE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL6Loader4BIND3NOWE">
+<span id="_CPPv3N4QBDL6Loader4BIND3NOWE"></span><span id="_CPPv2N4QBDL6Loader4BIND3NOWE"></span><span class="target" id="classQBDL_1_1Loader_1abfd6484a08e654655fdee92953057af3a3dce1fce9ac06d1349dfbd9186289385"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">NOW</span></span></span><a class="headerlink" href="#_CPPv4N4QBDL6Loader4BIND3NOWE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL6Loader4BIND4LAZYE">
+<span id="_CPPv3N4QBDL6Loader4BIND4LAZYE"></span><span id="_CPPv2N4QBDL6Loader4BIND4LAZYE"></span><span class="target" id="classQBDL_1_1Loader_1abfd6484a08e654655fdee92953057af3a6a8a3c94520fb08ece01af05181f1545"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LAZY</span></span></span><a class="headerlink" href="#_CPPv4N4QBDL6Loader4BIND4LAZYE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL6Loader11get_addressERKNSt6stringE">
+<span id="_CPPv3NK4QBDL6Loader11get_addressERKNSt6stringE"></span><span id="_CPPv2NK4QBDL6Loader11get_addressERKNSt6stringE"></span><span id="QBDL::Loader::get_address__ssCRC"></span><span class="target" id="classQBDL_1_1Loader_1a7c16a3be4bad667300e02f61e3cda574"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_address</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sym</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK4QBDL6Loader11get_addressERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the resolved absolute virtual address of a symbol. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL6Loader11get_addressE8uint64_t">
+<span id="_CPPv3NK4QBDL6Loader11get_addressE8uint64_t"></span><span id="_CPPv2NK4QBDL6Loader11get_addressE8uint64_t"></span><span id="QBDL::Loader::get_address__uint64_tC"></span><span class="target" id="classQBDL_1_1Loader_1a27d19d73860157cb03735f078fe8feef"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_address</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">offset</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK4QBDL6Loader11get_addressE8uint64_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the absolute virtual address of on offset. This is basically <code class="docutils literal notranslate"><span class="pre">base_address</span> <span class="pre">+</span> <span class="pre">offset</span></code>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL6Loader10entrypointEv">
+<span id="_CPPv3NK4QBDL6Loader10entrypointEv"></span><span id="_CPPv2NK4QBDL6Loader10entrypointEv"></span><span id="QBDL::Loader::entrypointC"></span><span class="target" id="classQBDL_1_1Loader_1af276833c2dff05f83ea3690f04d86ad0"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">entrypoint</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK4QBDL6Loader10entrypointEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the absolute virtual address of the entrypoint. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL6LoaderD0Ev">
+<span id="_CPPv3N4QBDL6LoaderD0Ev"></span><span id="_CPPv2N4QBDL6LoaderD0Ev"></span><span id="QBDL::Loader::~Loader"></span><span class="target" id="classQBDL_1_1Loader_1a1263967a1e2717acdd1067f93d2794cd"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">~Loader</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL6LoaderD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL6Loader4archEv">
+<span id="_CPPv3NK4QBDL6Loader4archEv"></span><span id="_CPPv2NK4QBDL6Loader4archEv"></span><span id="QBDL::Loader::archC"></span><span class="target" id="classQBDL_1_1Loader_1a022752cc0091ecee7a67fdb66192cff2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4QBDL4ArchE" title="QBDL::Arch"><span class="n"><span class="pre">Arch</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">arch</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4NK4QBDL6Loader4archEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the architecture targeted by the loaded binary. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-attributes">Public Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL6Loader12BIND_DEFAULTE">
+<span id="_CPPv3N4QBDL6Loader12BIND_DEFAULTE"></span><span id="_CPPv2N4QBDL6Loader12BIND_DEFAULTE"></span><span id="QBDL::Loader::BIND_DEFAULT__BIND"></span><span class="target" id="classQBDL_1_1Loader_1af2d45872e433c1c536c0f24bcae5ecdb"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4QBDL6Loader4BINDE" title="QBDL::Loader::BIND"><span class="n"><span class="pre">BIND</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BIND_DEFAULT</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4QBDL6Loader4BINDE" title="QBDL::Loader::BIND"><span class="n"><span class="pre">BIND</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4QBDL6Loader4BIND3NOWE" title="QBDL::Loader::BIND::NOW"><span class="n"><span class="pre">NOW</span></span></a><a class="headerlink" href="#_CPPv4N4QBDL6Loader12BIND_DEFAULTE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7EnginesE">
+<span id="_CPPv3N4QBDL7EnginesE"></span><span id="_CPPv2N4QBDL7EnginesE"></span><span id="QBDL::Engines"></span><span class="target" id="namespaceQBDL_1_1Engines"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Engines</span></span></span><a class="headerlink" href="#_CPPv4N4QBDL7EnginesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Engines6NativeE">
+<span id="_CPPv3N4QBDL7Engines6NativeE"></span><span id="_CPPv2N4QBDL7Engines6NativeE"></span><span id="QBDL::Engines::Native"></span><span class="target" id="namespaceQBDL_1_1Engines_1_1Native"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Native</span></span></span><a class="headerlink" href="#_CPPv4N4QBDL7Engines6NativeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Engines6Native6memoryEv">
+<span id="_CPPv3N4QBDL7Engines6Native6memoryEv"></span><span id="_CPPv2N4QBDL7Engines6Native6memoryEv"></span><span id="QBDL::Engines::Native::memory"></span><span class="target" id="namespaceQBDL_1_1Engines_1_1Native_1aa02066e33ec4d0ef72a8613a37898029"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv44QBDL" title="QBDL"><span class="n"><span class="pre">QBDL</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4QBDL12TargetMemoryE" title="QBDL::TargetMemory"><span class="n"><span class="pre">TargetMemory</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">memory</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL7Engines6Native6memoryEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Allocates and returns a <a class="reference internal" href="#classQBDL_1_1Engines_1_1Native_1_1TargetMemory"><span class="std std-ref">QBDL::Engines::Native::TargetMemory</span></a> object. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Engines6Native4archEv">
+<span id="_CPPv3N4QBDL7Engines6Native4archEv"></span><span id="_CPPv2N4QBDL7Engines6Native4archEv"></span><span id="QBDL::Engines::Native::archCE"></span><span class="target" id="namespaceQBDL_1_1Engines_1_1Native_1a2a531a6a3b59bd9c31be46d0a5a86b12"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4QBDL4ArchE" title="QBDL::Arch"><span class="n"><span class="pre">Arch</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">arch</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL7Engines6Native4archEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns a <a class="reference internal" href="#structQBDL_1_1Arch"><span class="std std-ref">QBDL::Arch</span></a> object that represents the native architecture <a class="reference internal" href="#namespaceQBDL"><span class="std std-ref">QBDL</span></a> is running onto. </p>
+</dd></dl>
+
+</div>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Engines6Native12TargetMemoryE">
+<span id="_CPPv3N4QBDL7Engines6Native12TargetMemoryE"></span><span id="_CPPv2N4QBDL7Engines6Native12TargetMemoryE"></span><span id="QBDL::Engines::Native::TargetMemory"></span><span class="target" id="classQBDL_1_1Engines_1_1Native_1_1TargetMemory"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TargetMemory</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv44QBDL" title="QBDL"><span class="n"><span class="pre">QBDL</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4QBDL12TargetMemoryE" title="QBDL::TargetMemory"><span class="n"><span class="pre">TargetMemory</span></span></a><a class="headerlink" href="#_CPPv4N4QBDL7Engines6Native12TargetMemoryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;Native.hpp&gt;</em><p><a class="reference internal" href="#namespaceQBDL_1_1Engines_1_1Native"><span class="std std-ref">Native</span></a> <a class="reference internal" href="#classQBDL_1_1TargetMemory"><span class="std std-ref">QBDL::TargetMemory</span></a> class that matches the OS <a class="reference internal" href="#namespaceQBDL"><span class="std std-ref">QBDL</span></a> is running onto.</p>
+<p>It only works for Linux-based system for now. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Engines6Native12TargetMemory4mmapE8uint64_t6size_t">
+<span id="_CPPv3N4QBDL7Engines6Native12TargetMemory4mmapE8uint64_t6size_t"></span><span id="_CPPv2N4QBDL7Engines6Native12TargetMemory4mmapE8uint64_t6size_t"></span><span id="QBDL::Engines::Native::TargetMemory::mmap__uint64_t.s"></span><span class="target" id="classQBDL_1_1Engines_1_1Native_1_1TargetMemory_1aacaa6f6ac62f4e61931f09173774d110"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mmap</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">hint</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N4QBDL7Engines6Native12TargetMemory4mmapE8uint64_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reserve a region of memory in the targeted memory space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hint</strong> – <strong>[in]</strong> A hint as to where the address should be. 0 means any address. </p></li>
+<li><p><strong>len</strong> – <strong>[in]</strong> Size of the memory region to reserve </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>0 if an error occurred, any value otherwise. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Engines6Native12TargetMemory8mprotectE8uint64_t6size_ti">
+<span id="_CPPv3N4QBDL7Engines6Native12TargetMemory8mprotectE8uint64_t6size_ti"></span><span id="_CPPv2N4QBDL7Engines6Native12TargetMemory8mprotectE8uint64_t6size_ti"></span><span id="QBDL::Engines::Native::TargetMemory::mprotect__uint64_t.s.i"></span><span class="target" id="classQBDL_1_1Engines_1_1Native_1_1TargetMemory_1aa7748b6247ac7f0edb8e61f292d91adf"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">mprotect</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">addr</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">prot</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N4QBDL7Engines6Native12TargetMemory8mprotectE8uint64_t6size_ti" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Change permissions on a region of memory. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Engines6Native12TargetMemory5writeE8uint64_tPKv6size_t">
+<span id="_CPPv3N4QBDL7Engines6Native12TargetMemory5writeE8uint64_tPKv6size_t"></span><span id="_CPPv2N4QBDL7Engines6Native12TargetMemory5writeE8uint64_tPKv6size_t"></span><span id="QBDL::Engines::Native::TargetMemory::write__uint64_t.voidCP.s"></span><span class="target" id="classQBDL_1_1Engines_1_1Native_1_1TargetMemory_1a4c7f4566d55801aeb3eda1f7e20de81d"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">addr</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">buf</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N4QBDL7Engines6Native12TargetMemory5writeE8uint64_tPKv6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write data to a memory region in the targeted memory space.</p>
+<p>This always succeeds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>addr</strong> – Virtual absolute address to write data into </p></li>
+<li><p><strong>buf</strong> – Pointer to the data to write </p></li>
+<li><p><strong>len</strong> – Length of the data to write </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Engines6Native12TargetMemory4readEPv8uint64_t6size_t">
+<span id="_CPPv3N4QBDL7Engines6Native12TargetMemory4readEPv8uint64_t6size_t"></span><span id="_CPPv2N4QBDL7Engines6Native12TargetMemory4readEPv8uint64_t6size_t"></span><span id="QBDL::Engines::Native::TargetMemory::read__voidP.uint64_t.s"></span><span class="target" id="classQBDL_1_1Engines_1_1Native_1_1TargetMemory_1a0f16e695d7ea318cd32d370c91892698"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">dst</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">addr</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">len</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N4QBDL7Engines6Native12TargetMemory4readEPv8uint64_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read data from a memory region in the targeted memory space.</p>
+<p>This always succeeds. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dst</strong> – A pointer to the buffer that will receive the data </p></li>
+<li><p><strong>addr</strong> – Virtual absolute address to read the data from </p></li>
+<li><p><strong>len</strong> – Length of the data to read </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Engines6Native12TargetSystemE">
+<span id="_CPPv3N4QBDL7Engines6Native12TargetSystemE"></span><span id="_CPPv2N4QBDL7Engines6Native12TargetSystemE"></span><span id="QBDL::Engines::Native::TargetSystem"></span><span class="target" id="classQBDL_1_1Engines_1_1Native_1_1TargetSystem"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">TargetSystem</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv44QBDL" title="QBDL"><span class="n"><span class="pre">QBDL</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4QBDL12TargetSystemE" title="QBDL::TargetSystem"><span class="n"><span class="pre">TargetSystem</span></span></a><a class="headerlink" href="#_CPPv4N4QBDL7Engines6Native12TargetSystemE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;Native.hpp&gt;</em><p><a class="reference internal" href="#namespaceQBDL_1_1Engines_1_1Native"><span class="std std-ref">Native</span></a> <a class="reference internal" href="#classQBDL_1_1TargetMemory"><span class="std std-ref">QBDL::TargetMemory</span></a> class that matches the OS on which <a class="reference internal" href="#namespaceQBDL"><span class="std std-ref">QBDL</span></a> is running on. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Engines6Native12TargetSystem8supportsERKN4LIEF6BinaryE">
+<span id="_CPPv3N4QBDL7Engines6Native12TargetSystem8supportsERKN4LIEF6BinaryE"></span><span id="_CPPv2N4QBDL7Engines6Native12TargetSystem8supportsERKN4LIEF6BinaryE"></span><span id="QBDL::Engines::Native::TargetSystem::supports__LIEF::BinaryCR"></span><span class="target" id="classQBDL_1_1Engines_1_1Native_1_1TargetSystem_1a1b5357781d100761303e83ba085e0ada"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">supports</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Binary</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bin</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N4QBDL7Engines6Native12TargetSystem8supportsERKN4LIEF6BinaryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Verify that the target system supports a binary.</p>
+<p>This is mainly used by the <a class="reference internal" href="#classQBDL_1_1Loaders_1_1MachO"><span class="std std-ref">QBDL::Loaders::MachO</span></a> loader to select a valid binary within a universal MachO.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>bin</strong> – <strong>[in]</strong> Binary to verify </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>true iif the target system can handle this binary. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Engines6Native12TargetSystem17base_address_hintE8uint64_t8uint64_t">
+<span id="_CPPv3N4QBDL7Engines6Native12TargetSystem17base_address_hintE8uint64_t8uint64_t"></span><span id="_CPPv2N4QBDL7Engines6Native12TargetSystem17base_address_hintE8uint64_t8uint64_t"></span><span id="QBDL::Engines::Native::TargetSystem::base_address_hint__uint64_t.uint64_t"></span><span class="target" id="classQBDL_1_1Engines_1_1Native_1_1TargetSystem_1a5388fe87b6f38b90d44dc84b7f5fef81"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">base_address_hint</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">binary_base_address</span></span>, <span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">virtual_size</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N4QBDL7Engines6Native12TargetSystem17base_address_hintE8uint64_t8uint64_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the preferred based address where the binary should be mapped.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>binary_base_address</strong> – <strong>[in]</strong> The base address extracted from the binary header </p></li>
+<li><p><strong>virtual_size</strong> – <strong>[in]</strong> The complete size the binary would take in memory (including all segments contiguously mapped with their relative offsets respected). </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>0 if the loader can choose any address, otherwise a hint as to what the base address should be. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Engines6Native7detailsE">
+<span id="_CPPv3N4QBDL7Engines6Native7detailsE"></span><span id="_CPPv2N4QBDL7Engines6Native7detailsE"></span><span id="QBDL::Engines::Native::details"></span><span class="target" id="namespaceQBDL_1_1Engines_1_1Native_1_1details"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">details</span></span></span><a class="headerlink" href="#_CPPv4N4QBDL7Engines6Native7detailsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Engines6Native7details8LIEFArchEv">
+<span id="_CPPv3N4QBDL7Engines6Native7details8LIEFArchEv"></span><span id="_CPPv2N4QBDL7Engines6Native7details8LIEFArchEv"></span><span id="QBDL::Engines::Native::details::LIEFArchCE"></span><span class="target" id="namespaceQBDL_1_1Engines_1_1Native_1_1details_1a245d039d24c06fbd24c2cbdee27112d8"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ARCHITECTURES</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LIEFArch</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL7Engines6Native7details8LIEFArchEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Engines6Native7details13LIEFEndianessEv">
+<span id="_CPPv3N4QBDL7Engines6Native7details13LIEFEndianessEv"></span><span id="_CPPv2N4QBDL7Engines6Native7details13LIEFEndianessEv"></span><span id="QBDL::Engines::Native::details::LIEFEndianessCE"></span><span class="target" id="namespaceQBDL_1_1Engines_1_1Native_1_1details_1ad70467c7aa658a91ae39386a83ba98f6"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ENDIANNESS</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LIEFEndianess</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL7Engines6Native7details13LIEFEndianessEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Engines6Native7details7Is64BitEv">
+<span id="_CPPv3N4QBDL7Engines6Native7details7Is64BitEv"></span><span id="_CPPv2N4QBDL7Engines6Native7details7Is64BitEv"></span><span id="QBDL::Engines::Native::details::Is64BitCE"></span><span class="target" id="namespaceQBDL_1_1Engines_1_1Native_1_1details_1a719d84575d0e7a128e2f280bf8ca8633"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Is64Bit</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL7Engines6Native7details7Is64BitEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7LoadersE">
+<span id="_CPPv3N4QBDL7LoadersE"></span><span id="_CPPv2N4QBDL7LoadersE"></span><span id="QBDL::Loaders"></span><span class="target" id="namespaceQBDL_1_1Loaders"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Loaders</span></span></span><a class="headerlink" href="#_CPPv4N4QBDL7LoadersE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Loaders3ELFE">
+<span id="_CPPv3N4QBDL7Loaders3ELFE"></span><span id="_CPPv2N4QBDL7Loaders3ELFE"></span><span id="QBDL::Loaders::ELF"></span><span class="target" id="classQBDL_1_1Loaders_1_1ELF"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ELF</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv44QBDL" title="QBDL"><span class="n"><span class="pre">QBDL</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4QBDL6LoaderE" title="QBDL::Loader"><span class="n"><span class="pre">Loader</span></span></a><a class="headerlink" href="#_CPPv4N4QBDL7Loaders3ELFE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;ELF.hpp&gt;</em><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders3ELFcvbEv">
+<span id="_CPPv3NK4QBDL7Loaders3ELFcvbEv"></span><span id="_CPPv2NK4QBDL7Loaders3ELFcvbEv"></span><span id="QBDL::Loaders::ELF::castto-b-operatorC"></span><span class="target" id="classQBDL_1_1Loaders_1_1ELF_1a40a636d4aeb508e2626a1626399828b6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders3ELFcvbEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders3ELF8is_validEv">
+<span id="_CPPv3NK4QBDL7Loaders3ELF8is_validEv"></span><span id="_CPPv2NK4QBDL7Loaders3ELF8is_validEv"></span><span id="QBDL::Loaders::ELF::is_validC"></span><span class="target" id="classQBDL_1_1Loaders_1_1ELF_1af5ab214ba432e075940d6a7e0f44b870"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_valid</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders3ELF8is_validEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders3ELF11get_addressERKNSt6stringE">
+<span id="_CPPv3NK4QBDL7Loaders3ELF11get_addressERKNSt6stringE"></span><span id="_CPPv2NK4QBDL7Loaders3ELF11get_addressERKNSt6stringE"></span><span id="QBDL::Loaders::ELF::get_address__ssCRC"></span><span class="target" id="classQBDL_1_1Loaders_1_1ELF_1a29070fc00ab3d2bfa39c560927c419d5"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_address</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sym</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders3ELF11get_addressERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the resolved absolute virtual address of a symbol. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders3ELF11get_addressE8uint64_t">
+<span id="_CPPv3NK4QBDL7Loaders3ELF11get_addressE8uint64_t"></span><span id="_CPPv2NK4QBDL7Loaders3ELF11get_addressE8uint64_t"></span><span id="QBDL::Loaders::ELF::get_address__uint64_tC"></span><span class="target" id="classQBDL_1_1Loaders_1_1ELF_1a27b6551a9806bb1a9a35ba7ff333c816"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_address</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">offset</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders3ELF11get_addressE8uint64_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the absolute virtual address of on offset. This is basically <code class="docutils literal notranslate"><span class="pre">base_address</span> <span class="pre">+</span> <span class="pre">offset</span></code>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders3ELF10entrypointEv">
+<span id="_CPPv3NK4QBDL7Loaders3ELF10entrypointEv"></span><span id="_CPPv2NK4QBDL7Loaders3ELF10entrypointEv"></span><span id="QBDL::Loaders::ELF::entrypointC"></span><span class="target" id="classQBDL_1_1Loaders_1_1ELF_1ab8b91f9c13e0109989b6c06df745181c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">entrypoint</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders3ELF10entrypointEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the absolute virtual address of the entrypoint. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders3ELF4archEv">
+<span id="_CPPv3NK4QBDL7Loaders3ELF4archEv"></span><span id="_CPPv2NK4QBDL7Loaders3ELF4archEv"></span><span id="QBDL::Loaders::ELF::archC"></span><span class="target" id="classQBDL_1_1Loaders_1_1ELF_1a453bd75748d2bb3fe1a7f2cbcd5cff1c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4QBDL4ArchE" title="QBDL::Arch"><span class="n"><span class="pre">Arch</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">arch</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders3ELF4archEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the architecture targeted by the loaded binary. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Loaders3ELF10get_binaryEv">
+<span id="_CPPv3N4QBDL7Loaders3ELF10get_binaryEv"></span><span id="_CPPv2N4QBDL7Loaders3ELF10get_binaryEv"></span><span id="QBDL::Loaders::ELF::get_binary"></span><span class="target" id="classQBDL_1_1Loaders_1_1ELF_1aac9092a3a8065c1dbfc6fce0fbee1dc0"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ELF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Binary</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_binary</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL7Loaders3ELF10get_binaryEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders3ELF10get_binaryEv">
+<span id="_CPPv3NK4QBDL7Loaders3ELF10get_binaryEv"></span><span id="_CPPv2NK4QBDL7Loaders3ELF10get_binaryEv"></span><span id="QBDL::Loaders::ELF::get_binaryC"></span><span class="target" id="classQBDL_1_1Loaders_1_1ELF_1a1f49d090d5cd8f1e78e7f37e4d68fffc"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ELF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Binary</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_binary</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders3ELF10get_binaryEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Loaders3ELFD0Ev">
+<span id="_CPPv3N4QBDL7Loaders3ELFD0Ev"></span><span id="_CPPv2N4QBDL7Loaders3ELFD0Ev"></span><span id="QBDL::Loaders::ELF::~ELF"></span><span class="target" id="classQBDL_1_1Loaders_1_1ELF_1ab9e3d12ab6bdd1e95816129991818aaf"></span><span class="sig-name descname"><span class="n"><span class="pre">~ELF</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N4QBDL7Loaders3ELFD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Loaders3ELF11from_binaryENSt10unique_ptrIN4LIEF3ELF6BinaryEEER12TargetSystem4BIND">
+<span id="_CPPv3N4QBDL7Loaders3ELF11from_binaryENSt10unique_ptrIN4LIEF3ELF6BinaryEEER12TargetSystem4BIND"></span><span id="_CPPv2N4QBDL7Loaders3ELF11from_binaryENSt10unique_ptrIN4LIEF3ELF6BinaryEEER12TargetSystem4BIND"></span><span id="QBDL::Loaders::ELF::from_binary__std::unique_ptr:LIEF::ELF::Binary:.TargetSystemR.BIND"></span><span class="target" id="classQBDL_1_1Loaders_1_1ELF_1a8ede8dfff99eb357a14af2b4420e9c5b"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N4QBDL7Loaders3ELFE" title="QBDL::Loaders::ELF"><span class="n"><span class="pre">ELF</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">from_binary</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ELF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Binary</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bin</span></span>, <a class="reference internal" href="#_CPPv4N4QBDL12TargetSystemE" title="QBDL::TargetSystem"><span class="n"><span class="pre">TargetSystem</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">engine</span></span>, <span class="n"><span class="pre">BIND</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">binding</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">BIND</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">NOW</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL7Loaders3ELF11from_binaryENSt10unique_ptrIN4LIEF3ELF6BinaryEEER12TargetSystem4BIND" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Loads an <a class="reference internal" href="#classQBDL_1_1Loaders_1_1ELF"><span class="std std-ref">ELF</span></a> file directly from a LIEF object.</p>
+<p>This function also loads the binary into <code class="docutils literal notranslate"><span class="pre">engine</span></code>, and return an :<a class="reference internal" href="#classQBDL_1_1Loaders_1_1ELF"><span class="std std-ref">ELF</span></a> object with associated information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bin</strong> – <strong>[in]</strong> a valid <code class="docutils literal notranslate"><span class="pre">LIEF::ELF::Binary</span></code> object. The returned object takes ownership. </p></li>
+<li><p><strong>engine</strong> – <strong>[in]</strong> Reference to a <a class="reference internal" href="#classQBDL_1_1TargetSystem"><span class="std std-ref">QBDL::TargetSystem</span></a> object. The returned <a class="reference internal" href="#classQBDL_1_1Loaders_1_1ELF"><span class="std std-ref">ELF</span></a> object does <em>not</em> own this reference. It is the responsibility of the user to ensure this object lives as long as the returned <a class="reference internal" href="#classQBDL_1_1Loaders_1_1ELF"><span class="std std-ref">ELF</span></a> object lives. </p></li>
+<li><p><strong>binding</strong> – <strong>[in]</strong> Binding mode. Only <a class="reference internal" href="#classQBDL_1_1Loader_1abfd6484a08e654655fdee92953057af3a3dce1fce9ac06d1349dfbd9186289385"><span class="std std-ref">BIND::NOW</span></a> is supported for now. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <a class="reference internal" href="#classQBDL_1_1Loaders_1_1ELF"><span class="std std-ref">QBDL::Loaders::ELF</span></a> object, or nullptr if loading failed. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Loaders3ELF9from_fileEPKcR12TargetSystem4BIND">
+<span id="_CPPv3N4QBDL7Loaders3ELF9from_fileEPKcR12TargetSystem4BIND"></span><span id="_CPPv2N4QBDL7Loaders3ELF9from_fileEPKcR12TargetSystem4BIND"></span><span id="QBDL::Loaders::ELF::from_file__cCP.TargetSystemR.BIND"></span><span class="target" id="classQBDL_1_1Loaders_1_1ELF_1a3acb70795d6a73d1132a909727b3768b"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N4QBDL7Loaders3ELFE" title="QBDL::Loaders::ELF"><span class="n"><span class="pre">ELF</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">from_file</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">path</span></span>, <a class="reference internal" href="#_CPPv4N4QBDL12TargetSystemE" title="QBDL::TargetSystem"><span class="n"><span class="pre">TargetSystem</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">engine</span></span>, <span class="n"><span class="pre">BIND</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">binding</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">BIND_DEFAULT</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL7Loaders3ELF9from_fileEPKcR12TargetSystem4BIND" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Loads an <a class="reference internal" href="#classQBDL_1_1Loaders_1_1ELF"><span class="std std-ref">ELF</span></a> file directly from disk.</p>
+<p>This function also loads the binary into <code class="docutils literal notranslate"><span class="pre">engine</span></code>, and return an :<a class="reference internal" href="#classQBDL_1_1Loaders_1_1ELF"><span class="std std-ref">ELF</span></a> object with associated information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – <strong>[in]</strong> Path to the <a class="reference internal" href="#classQBDL_1_1Loaders_1_1ELF"><span class="std std-ref">ELF</span></a> file to load </p></li>
+<li><p><strong>engine</strong> – <strong>[in]</strong> Reference to a <a class="reference internal" href="#classQBDL_1_1TargetSystem"><span class="std std-ref">QBDL::TargetSystem</span></a> object. The returned <a class="reference internal" href="#classQBDL_1_1Loaders_1_1ELF"><span class="std std-ref">ELF</span></a> object does <em>not</em> own this reference. It is the responsibility of the user to ensure this object lives as long as the returned <a class="reference internal" href="#classQBDL_1_1Loaders_1_1ELF"><span class="std std-ref">ELF</span></a> object lives. </p></li>
+<li><p><strong>binding</strong> – <strong>[in]</strong> Binding mode. Note that <a class="reference internal" href="#classQBDL_1_1Loader_1abfd6484a08e654655fdee92953057af3a6a8a3c94520fb08ece01af05181f1545"><span class="std std-ref">BIND::LAZY</span></a> is only supported with a native engine. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An <a class="reference internal" href="#classQBDL_1_1Loaders_1_1ELF"><span class="std std-ref">QBDL::Loaders::ELF</span></a> object, or nullptr if loading failed. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Loaders5MachOE">
+<span id="_CPPv3N4QBDL7Loaders5MachOE"></span><span id="_CPPv2N4QBDL7Loaders5MachOE"></span><span id="QBDL::Loaders::MachO"></span><span class="target" id="classQBDL_1_1Loaders_1_1MachO"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">MachO</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv44QBDL" title="QBDL"><span class="n"><span class="pre">QBDL</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4QBDL6LoaderE" title="QBDL::Loader"><span class="n"><span class="pre">Loader</span></span></a><a class="headerlink" href="#_CPPv4N4QBDL7Loaders5MachOE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;MachO.hpp&gt;</em><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders5MachOcvbEv">
+<span id="_CPPv3NK4QBDL7Loaders5MachOcvbEv"></span><span id="_CPPv2NK4QBDL7Loaders5MachOcvbEv"></span><span id="QBDL::Loaders::MachO::castto-b-operatorC"></span><span class="target" id="classQBDL_1_1Loaders_1_1MachO_1a5ecf220b429601a2720c078f6d75e5f4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders5MachOcvbEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders5MachO8is_validEv">
+<span id="_CPPv3NK4QBDL7Loaders5MachO8is_validEv"></span><span id="_CPPv2NK4QBDL7Loaders5MachO8is_validEv"></span><span id="QBDL::Loaders::MachO::is_validC"></span><span class="target" id="classQBDL_1_1Loaders_1_1MachO_1ae22232ff8663d51b36f293c024940f02"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_valid</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders5MachO8is_validEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders5MachO11get_addressERKNSt6stringE">
+<span id="_CPPv3NK4QBDL7Loaders5MachO11get_addressERKNSt6stringE"></span><span id="_CPPv2NK4QBDL7Loaders5MachO11get_addressERKNSt6stringE"></span><span id="QBDL::Loaders::MachO::get_address__ssCRC"></span><span class="target" id="classQBDL_1_1Loaders_1_1MachO_1abcc45ed40052d1cde0bb06f4e8825557"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_address</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sym</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders5MachO11get_addressERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the resolved absolute virtual address of a symbol. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders5MachO11get_addressE8uint64_t">
+<span id="_CPPv3NK4QBDL7Loaders5MachO11get_addressE8uint64_t"></span><span id="_CPPv2NK4QBDL7Loaders5MachO11get_addressE8uint64_t"></span><span id="QBDL::Loaders::MachO::get_address__uint64_tC"></span><span class="target" id="classQBDL_1_1Loaders_1_1MachO_1a472e5c707c4d137e3d1b764f46a6c967"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_address</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">offset</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders5MachO11get_addressE8uint64_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the absolute virtual address of on offset. This is basically <code class="docutils literal notranslate"><span class="pre">base_address</span> <span class="pre">+</span> <span class="pre">offset</span></code>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders5MachO10entrypointEv">
+<span id="_CPPv3NK4QBDL7Loaders5MachO10entrypointEv"></span><span id="_CPPv2NK4QBDL7Loaders5MachO10entrypointEv"></span><span id="QBDL::Loaders::MachO::entrypointC"></span><span class="target" id="classQBDL_1_1Loaders_1_1MachO_1ab0c1618e7c0ebf48886e9b610b767538"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">entrypoint</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders5MachO10entrypointEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the absolute virtual address of the entrypoint. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders5MachO4archEv">
+<span id="_CPPv3NK4QBDL7Loaders5MachO4archEv"></span><span id="_CPPv2NK4QBDL7Loaders5MachO4archEv"></span><span id="QBDL::Loaders::MachO::archC"></span><span class="target" id="classQBDL_1_1Loaders_1_1MachO_1ab36bec7906323624a17f3c974b43ae1c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4QBDL4ArchE" title="QBDL::Arch"><span class="n"><span class="pre">Arch</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">arch</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders5MachO4archEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the architecture targeted by the loaded binary. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Loaders5MachOD0Ev">
+<span id="_CPPv3N4QBDL7Loaders5MachOD0Ev"></span><span id="_CPPv2N4QBDL7Loaders5MachOD0Ev"></span><span id="QBDL::Loaders::MachO::~MachO"></span><span class="target" id="classQBDL_1_1Loaders_1_1MachO_1a392eaf6b369f0aec7e5fc1fdcb5d33fb"></span><span class="sig-name descname"><span class="n"><span class="pre">~MachO</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N4QBDL7Loaders5MachOD0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Loaders5MachO11from_binaryENSt10unique_ptrIN4LIEF5MachO6BinaryEEER12TargetSystem4BIND">
+<span id="_CPPv3N4QBDL7Loaders5MachO11from_binaryENSt10unique_ptrIN4LIEF5MachO6BinaryEEER12TargetSystem4BIND"></span><span id="_CPPv2N4QBDL7Loaders5MachO11from_binaryENSt10unique_ptrIN4LIEF5MachO6BinaryEEER12TargetSystem4BIND"></span><span id="QBDL::Loaders::MachO::from_binary__std::unique_ptr:LIEF::MachO::Binary:.TargetSystemR.BIND"></span><span class="target" id="classQBDL_1_1Loaders_1_1MachO_1a68562445888061557f31627829ea22df"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N4QBDL7Loaders5MachOE" title="QBDL::Loaders::MachO"><span class="n"><span class="pre">MachO</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">from_binary</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">MachO</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Binary</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bin</span></span>, <a class="reference internal" href="#_CPPv4N4QBDL12TargetSystemE" title="QBDL::TargetSystem"><span class="n"><span class="pre">TargetSystem</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">engine</span></span>, <span class="n"><span class="pre">BIND</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">binding</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">BIND_DEFAULT</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL7Loaders5MachO11from_binaryENSt10unique_ptrIN4LIEF5MachO6BinaryEEER12TargetSystem4BIND" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Loads a <a class="reference internal" href="#classQBDL_1_1Loaders_1_1MachO"><span class="std std-ref">MachO</span></a> file directly from a LIEF object.</p>
+<p>This function also loads the binary into <code class="docutils literal notranslate"><span class="pre">engine</span></code>, and return a :<a class="reference internal" href="#classQBDL_1_1Loaders_1_1MachO"><span class="std std-ref">MachO</span></a> object with associated information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bin</strong> – <strong>[in]</strong> a valid <code class="docutils literal notranslate"><span class="pre">LIEF::MachO::Binary</span></code> object. The returned object takes ownership. </p></li>
+<li><p><strong>engine</strong> – <strong>[in]</strong> Reference to a <a class="reference internal" href="#classQBDL_1_1TargetSystem"><span class="std std-ref">QBDL::TargetSystem</span></a> object. The returned <a class="reference internal" href="#classQBDL_1_1Loaders_1_1ELF"><span class="std std-ref">ELF</span></a> object does <em>not</em> own this reference. It is the responsibility of the user to ensure this object lives as long as the returned <a class="reference internal" href="#classQBDL_1_1Loaders_1_1ELF"><span class="std std-ref">ELF</span></a> object lives. </p></li>
+<li><p><strong>binding</strong> – <strong>[in]</strong> Binding mode. Only <a class="reference internal" href="#classQBDL_1_1Loader_1abfd6484a08e654655fdee92953057af3a3dce1fce9ac06d1349dfbd9186289385"><span class="std std-ref">BIND::NOW</span></a> is supported for now. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <a class="reference internal" href="#classQBDL_1_1Loaders_1_1MachO"><span class="std std-ref">QBDL::Loaders::MachO</span></a> object, or nullptr if loading failed. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Loaders5MachO16take_arch_binaryERN4LIEF5MachO9FatBinaryERK4Arch">
+<span id="_CPPv3N4QBDL7Loaders5MachO16take_arch_binaryERN4LIEF5MachO9FatBinaryERK4Arch"></span><span id="_CPPv2N4QBDL7Loaders5MachO16take_arch_binaryERN4LIEF5MachO9FatBinaryERK4Arch"></span><span id="QBDL::Loaders::MachO::take_arch_binary__LIEF::MachO::FatBinaryR.ArchCR"></span><span class="target" id="classQBDL_1_1Loaders_1_1MachO_1a50d1d14f1f8afa3da3b919d58fc1f44e"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">MachO</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Binary</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">take_arch_binary</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">MachO</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">FatBinary</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">fatbin</span></span>, <a class="reference internal" href="#_CPPv4N4QBDL4ArchE" title="QBDL::Arch"><span class="n"><span class="pre">Arch</span></span></a><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">arch</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL7Loaders5MachO16take_arch_binaryERN4LIEF5MachO9FatBinaryERK4Arch" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select a binary from a universal <a class="reference internal" href="#classQBDL_1_1Loaders_1_1MachO"><span class="std std-ref">MachO</span></a> that matches a given architecture.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fatbin</strong> – <strong>[in]</strong> Reference to a <code class="docutils literal notranslate"><span class="pre">LIEF::MachO::FatBinary</span></code> object that represents the universal <a class="reference internal" href="#classQBDL_1_1Loaders_1_1MachO"><span class="std std-ref">MachO</span></a> binary </p></li>
+<li><p><strong>arch</strong> – <strong>[in]</strong> Architecture to extract </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">LIEF::MachO::Binary</span></code> object if <code class="docutils literal notranslate"><span class="pre">arch</span></code> is found successful, nullptr otherwise. The caller gets the ownership of the returned object, and it has been removed from <code class="docutils literal notranslate"><span class="pre">fatbin</span></code>. Returns nullptr if nothing matches. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Loaders5MachO9from_fileEPKcRK4ArchR12TargetSystem4BIND">
+<span id="_CPPv3N4QBDL7Loaders5MachO9from_fileEPKcRK4ArchR12TargetSystem4BIND"></span><span id="_CPPv2N4QBDL7Loaders5MachO9from_fileEPKcRK4ArchR12TargetSystem4BIND"></span><span id="QBDL::Loaders::MachO::from_file__cCP.ArchCR.TargetSystemR.BIND"></span><span class="target" id="classQBDL_1_1Loaders_1_1MachO_1adc6e55a42adc8c7d9d8d7e813c567b3d"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N4QBDL7Loaders5MachOE" title="QBDL::Loaders::MachO"><span class="n"><span class="pre">MachO</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">from_file</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">path</span></span>, <a class="reference internal" href="#_CPPv4N4QBDL4ArchE" title="QBDL::Arch"><span class="n"><span class="pre">Arch</span></span></a><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">arch</span></span>, <a class="reference internal" href="#_CPPv4N4QBDL12TargetSystemE" title="QBDL::TargetSystem"><span class="n"><span class="pre">TargetSystem</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">engine</span></span>, <span class="n"><span class="pre">BIND</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">binding</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">BIND_DEFAULT</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL7Loaders5MachO9from_fileEPKcRK4ArchR12TargetSystem4BIND" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Loads a (potentially universal) <a class="reference internal" href="#classQBDL_1_1Loaders_1_1MachO"><span class="std std-ref">MachO</span></a> file directly from disk.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">path</span></code> is a universal <a class="reference internal" href="#classQBDL_1_1Loaders_1_1MachO"><span class="std std-ref">MachO</span></a>, this function will select the first architecture that matches with <code class="docutils literal notranslate"><span class="pre">arch</span></code>. If no such architecture is found, nullptr is returned. If successful, this function also loads the binary into <code class="docutils literal notranslate"><span class="pre">engine</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – <strong>[in]</strong> Path to the <a class="reference internal" href="#classQBDL_1_1Loaders_1_1MachO"><span class="std std-ref">MachO</span></a> file to load </p></li>
+<li><p><strong>arch</strong> – <strong>[in]</strong> In case of a universal <a class="reference internal" href="#classQBDL_1_1Loaders_1_1MachO"><span class="std std-ref">MachO</span></a>, specify the architecture to extract </p></li>
+<li><p><strong>engine</strong> – <strong>[in]</strong> Reference to a <a class="reference internal" href="#classQBDL_1_1TargetSystem"><span class="std std-ref">QBDL::TargetSystem</span></a> object. The returned <a class="reference internal" href="#classQBDL_1_1Loaders_1_1MachO"><span class="std std-ref">MachO</span></a> object does <em>not</em> own this reference. It is the responsibility of the user to ensure this object lives as long as the returned <a class="reference internal" href="#classQBDL_1_1Loaders_1_1MachO"><span class="std std-ref">MachO</span></a> object lives. </p></li>
+<li><p><strong>binding</strong> – <strong>[in]</strong> Binding mode. Note that <a class="reference internal" href="#classQBDL_1_1Loader_1abfd6484a08e654655fdee92953057af3a6a8a3c94520fb08ece01af05181f1545"><span class="std std-ref">BIND::LAZY</span></a> is only supported with a native engine. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An <a class="reference internal" href="#classQBDL_1_1Loaders_1_1MachO"><span class="std std-ref">QBDL::Loaders::MachO</span></a> object, or nullptr if loading failed. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Loaders2PEE">
+<span id="_CPPv3N4QBDL7Loaders2PEE"></span><span id="_CPPv2N4QBDL7Loaders2PEE"></span><span id="QBDL::Loaders::PE"></span><span class="target" id="classQBDL_1_1Loaders_1_1PE"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PE</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv44QBDL" title="QBDL"><span class="n"><span class="pre">QBDL</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N4QBDL6LoaderE" title="QBDL::Loader"><span class="n"><span class="pre">Loader</span></span></a><a class="headerlink" href="#_CPPv4N4QBDL7Loaders2PEE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;PE.hpp&gt;</em><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders2PEcvbEv">
+<span id="_CPPv3NK4QBDL7Loaders2PEcvbEv"></span><span id="_CPPv2NK4QBDL7Loaders2PEcvbEv"></span><span id="QBDL::Loaders::PE::castto-b-operatorC"></span><span class="target" id="classQBDL_1_1Loaders_1_1PE_1a0c09a104e48a2129c24529d0823ed4d8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders2PEcvbEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders2PE8is_validEv">
+<span id="_CPPv3NK4QBDL7Loaders2PE8is_validEv"></span><span id="_CPPv2NK4QBDL7Loaders2PE8is_validEv"></span><span id="QBDL::Loaders::PE::is_validC"></span><span class="target" id="classQBDL_1_1Loaders_1_1PE_1af98df680ff57886594684c046099c3a8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">is_valid</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders2PE8is_validEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders2PE11get_addressERKNSt6stringE">
+<span id="_CPPv3NK4QBDL7Loaders2PE11get_addressERKNSt6stringE"></span><span id="_CPPv2NK4QBDL7Loaders2PE11get_addressERKNSt6stringE"></span><span id="QBDL::Loaders::PE::get_address__ssCRC"></span><span class="target" id="classQBDL_1_1Loaders_1_1PE_1a2b2a90df2aa74fc453f5cb663ce7e036"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_address</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">sym</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders2PE11get_addressERKNSt6stringE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the resolved absolute virtual address of a symbol. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders2PE11get_addressE8uint64_t">
+<span id="_CPPv3NK4QBDL7Loaders2PE11get_addressE8uint64_t"></span><span id="_CPPv2NK4QBDL7Loaders2PE11get_addressE8uint64_t"></span><span id="QBDL::Loaders::PE::get_address__uint64_tC"></span><span class="target" id="classQBDL_1_1Loaders_1_1PE_1afae1ad7a0bf4296ac3dc97149cb02bb2"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_address</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">offset</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders2PE11get_addressE8uint64_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Compute the absolute virtual address of on offset. This is basically <code class="docutils literal notranslate"><span class="pre">base_address</span> <span class="pre">+</span> <span class="pre">offset</span></code>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders2PE10entrypointEv">
+<span id="_CPPv3NK4QBDL7Loaders2PE10entrypointEv"></span><span id="_CPPv2NK4QBDL7Loaders2PE10entrypointEv"></span><span id="QBDL::Loaders::PE::entrypointC"></span><span class="target" id="classQBDL_1_1Loaders_1_1PE_1a8bb12b022567683634b3e1036822d82c"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">entrypoint</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders2PE10entrypointEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the absolute virtual address of the entrypoint. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders2PE4archEv">
+<span id="_CPPv3NK4QBDL7Loaders2PE4archEv"></span><span id="_CPPv2NK4QBDL7Loaders2PE4archEv"></span><span id="QBDL::Loaders::PE::archC"></span><span class="target" id="classQBDL_1_1Loaders_1_1PE_1aae08e7d94e05804b7cdc22572ba936e3"></span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4QBDL4ArchE" title="QBDL::Arch"><span class="n"><span class="pre">Arch</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">arch</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders2PE4archEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the architecture targeted by the loaded binary. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Loaders2PE10get_binaryEv">
+<span id="_CPPv3N4QBDL7Loaders2PE10get_binaryEv"></span><span id="_CPPv2N4QBDL7Loaders2PE10get_binaryEv"></span><span id="QBDL::Loaders::PE::get_binary"></span><span class="target" id="classQBDL_1_1Loaders_1_1PE_1a7cdc39f2173b6b97846880df6dcaf739"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">PE</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Binary</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_binary</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL7Loaders2PE10get_binaryEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4QBDL7Loaders2PE10get_binaryEv">
+<span id="_CPPv3NK4QBDL7Loaders2PE10get_binaryEv"></span><span id="_CPPv2NK4QBDL7Loaders2PE10get_binaryEv"></span><span id="QBDL::Loaders::PE::get_binaryC"></span><span class="target" id="classQBDL_1_1Loaders_1_1PE_1aca50b568c4cfeaf69fc5269bbcbe49bb"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">PE</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Binary</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">get_binary</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4QBDL7Loaders2PE10get_binaryEv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Loaders2PED0Ev">
+<span id="_CPPv3N4QBDL7Loaders2PED0Ev"></span><span id="_CPPv2N4QBDL7Loaders2PED0Ev"></span><span id="QBDL::Loaders::PE::~PE"></span><span class="target" id="classQBDL_1_1Loaders_1_1PE_1a280556885e238c0eb57fc405a0401dc4"></span><span class="sig-name descname"><span class="n"><span class="pre">~PE</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N4QBDL7Loaders2PED0Ev" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Loaders2PE11from_binaryENSt10unique_ptrIN4LIEF2PE6BinaryEEER12TargetSystem4BIND">
+<span id="_CPPv3N4QBDL7Loaders2PE11from_binaryENSt10unique_ptrIN4LIEF2PE6BinaryEEER12TargetSystem4BIND"></span><span id="_CPPv2N4QBDL7Loaders2PE11from_binaryENSt10unique_ptrIN4LIEF2PE6BinaryEEER12TargetSystem4BIND"></span><span id="QBDL::Loaders::PE::from_binary__std::unique_ptr:LIEF::PE::Binary:.TargetSystemR.BIND"></span><span class="target" id="classQBDL_1_1Loaders_1_1PE_1af4c8ab264a580f5c81129243844176b7"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N4QBDL7Loaders2PEE" title="QBDL::Loaders::PE"><span class="n"><span class="pre">PE</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">from_binary</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">LIEF</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">PE</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Binary</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">bin</span></span>, <a class="reference internal" href="#_CPPv4N4QBDL12TargetSystemE" title="QBDL::TargetSystem"><span class="n"><span class="pre">TargetSystem</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">engine</span></span>, <span class="n"><span class="pre">BIND</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">binding</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">BIND_DEFAULT</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL7Loaders2PE11from_binaryENSt10unique_ptrIN4LIEF2PE6BinaryEEER12TargetSystem4BIND" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Loads an <a class="reference internal" href="#classQBDL_1_1Loaders_1_1PE"><span class="std std-ref">PE</span></a> file directly from a LIEF object.</p>
+<p>This function also loads the binary into <code class="docutils literal notranslate"><span class="pre">engine</span></code>, and return an :<a class="reference internal" href="#classQBDL_1_1Loaders_1_1PE"><span class="std std-ref">PE</span></a> object with associated information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bin</strong> – <strong>[in]</strong> a valid <code class="docutils literal notranslate"><span class="pre">LIEF::PE::Binary</span></code> object. The returned object takes ownership. </p></li>
+<li><p><strong>engine</strong> – <strong>[in]</strong> Reference to a <a class="reference internal" href="#classQBDL_1_1TargetSystem"><span class="std std-ref">QBDL::TargetSystem</span></a> object. The returned <a class="reference internal" href="#classQBDL_1_1Loaders_1_1PE"><span class="std std-ref">PE</span></a> object does <em>not</em> own this reference. It is the responsibility of the user to ensure this object lives as long as the returned <a class="reference internal" href="#classQBDL_1_1Loaders_1_1PE"><span class="std std-ref">PE</span></a> object lives. </p></li>
+<li><p><strong>binding</strong> – <strong>[in]</strong> Binding mode. Note that the current implementation only supports <a class="reference internal" href="#classQBDL_1_1Loader_1abfd6484a08e654655fdee92953057af3a3dce1fce9ac06d1349dfbd9186289385"><span class="std std-ref">BIND::NOW</span></a>. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <a class="reference internal" href="#classQBDL_1_1Loaders_1_1PE"><span class="std std-ref">QBDL::Loaders::PE</span></a> object, or nullptr if loading failed. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4QBDL7Loaders2PE9from_fileEPKcR12TargetSystem4BIND">
+<span id="_CPPv3N4QBDL7Loaders2PE9from_fileEPKcR12TargetSystem4BIND"></span><span id="_CPPv2N4QBDL7Loaders2PE9from_fileEPKcR12TargetSystem4BIND"></span><span id="QBDL::Loaders::PE::from_file__cCP.TargetSystemR.BIND"></span><span class="target" id="classQBDL_1_1Loaders_1_1PE_1a4fa7f047158946b237c2d503683a5182"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">unique_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N4QBDL7Loaders2PEE" title="QBDL::Loaders::PE"><span class="n"><span class="pre">PE</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">from_file</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">path</span></span>, <a class="reference internal" href="#_CPPv4N4QBDL12TargetSystemE" title="QBDL::TargetSystem"><span class="n"><span class="pre">TargetSystem</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">engine</span></span>, <span class="n"><span class="pre">BIND</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">binding</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">BIND_DEFAULT</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4QBDL7Loaders2PE9from_fileEPKcR12TargetSystem4BIND" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Loads an <a class="reference internal" href="#classQBDL_1_1Loaders_1_1PE"><span class="std std-ref">PE</span></a> file directly from disk.</p>
+<p>This function also loads the binary into <code class="docutils literal notranslate"><span class="pre">engine</span></code>, and return an :<a class="reference internal" href="#classQBDL_1_1Loaders_1_1PE"><span class="std std-ref">PE</span></a> object with associated information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – <strong>[in]</strong> Path to the <a class="reference internal" href="#classQBDL_1_1Loaders_1_1PE"><span class="std std-ref">PE</span></a> file to load </p></li>
+<li><p><strong>engine</strong> – <strong>[in]</strong> Reference to a <a class="reference internal" href="#classQBDL_1_1TargetSystem"><span class="std std-ref">QBDL::TargetSystem</span></a> object. The returned <a class="reference internal" href="#classQBDL_1_1Loaders_1_1PE"><span class="std std-ref">PE</span></a> object does <em>not</em> own this reference. It is the responsibility of the user to ensure this object lives as long as the returned <a class="reference internal" href="#classQBDL_1_1Loaders_1_1PE"><span class="std std-ref">PE</span></a> object lives. </p></li>
+<li><p><strong>binding</strong> – <strong>[in]</strong> Binding mode. Note that the current implementation only supports BIND::DEFAULT and <a class="reference internal" href="#classQBDL_1_1Loader_1abfd6484a08e654655fdee92953057af3a3dce1fce9ac06d1349dfbd9186289385"><span class="std std-ref">BIND::NOW</span></a>. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An <a class="reference internal" href="#classQBDL_1_1Loaders_1_1PE"><span class="std std-ref">QBDL::Loaders::PE</span></a> object, or nullptr if loading failed. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="reference_py.html" class="btn btn-neutral float-right" title="Python API reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="anroid_lib.html" class="btn btn-neutral float-left" title="Running Android Library on Linux" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, quarkslab.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
