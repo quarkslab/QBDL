@@ -73,3 +73,13 @@ target_include_directories(QBDL PUBLIC
 
 include("${CMAKE_CURRENT_LIST_DIR}/loaders/CMakeLists.txt")
 include("${CMAKE_CURRENT_LIST_DIR}/engines/CMakeLists.txt")
+
+install(TARGETS QBDL EXPORT QBDL-export
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)
+install(EXPORT QBDL-export
+  FILE QBDLTargets.cmake
+  DESTINATION share/QBDL/cmake
+)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION .)

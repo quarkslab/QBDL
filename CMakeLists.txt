@@ -26,3 +26,6 @@ endif()
 if(QBDL_PYTHON_BINDING)
   add_subdirectory(bindings/python)
 endif()
+
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/cmake/QBDLConfig.cmake"
+  DESTINATION share/QBDL/cmake)
