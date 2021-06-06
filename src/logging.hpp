@@ -1,8 +1,14 @@
 #ifndef QBDL_LOGGING_H_
 #define QBDL_LOGGING_H_
-#include "spdlog/spdlog.h"
 
+#include "spdlog/spdlog.h"
+#include <QBDL/log.hpp>
+
+#ifndef NDEBUG
+static constexpr bool QBDL_DEBUG_ENABLED = false;
+#else
 static constexpr bool QBDL_DEBUG_ENABLED = true;
+#endif
 
 #define QBDL_DEBUG(...) QBDL::Logger::debug(__VA_ARGS__)
 #define QBDL_INFO(...) QBDL::Logger::info(__VA_ARGS__)
@@ -13,6 +19,8 @@ namespace QBDL {
 class Logger {
 public:
   static Logger &instance();
+
+  void setLogLevel(LogLevel level);
 
   template <typename... Args>
   static void debug(const char *fmt, const Args &...args) {
@@ -41,10 +49,9 @@ private:
   Logger(const Logger &) = delete;
   Logger &operator=(const Logger &) = delete;
 
-  static void destroy(void);
-  inline static Logger *instance_ = nullptr;
   std::shared_ptr<spdlog::logger> sink_;
 };
+
 } // namespace QBDL
 
 #endif
