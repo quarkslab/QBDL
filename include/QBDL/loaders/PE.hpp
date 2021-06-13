@@ -60,7 +60,10 @@ public:
 
   uint64_t get_address(const std::string &sym) const override;
   uint64_t get_address(uint64_t offset) const override;
+
   uint64_t entrypoint() const override;
+
+  uint64_t base_address() const override { return base_address_; }
   Arch arch() const override;
 
   LIEF::PE::Binary &get_binary() { return *bin_; }

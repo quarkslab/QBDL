@@ -31,6 +31,10 @@ public:
    */
   virtual uint64_t entrypoint() const = 0;
 
+  /** Get the absolute virtual address of the base address.
+   */
+  virtual uint64_t base_address() const = 0;
+
   virtual ~Loader();
 
   /** Get the architecture targeted by the loaded binary.
