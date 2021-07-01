@@ -200,6 +200,15 @@ uintptr_t ELF::resolve(const LIEF::ELF::Symbol &sym) {
   return get_address(it_sym->second->value());
 }
 
+uintptr_t ELF::resolve_or_symlink(const LIEF::ELF::Symbol &sym) {
+  // First check if the symbol is not exported by the binary itself:
+  uintptr_t ret = resolve(sym);
+  if (ret == 0) {
+    ret = engine_->symlink(*this, sym);
+  }
+  return ret;
+}
+
 void ELF::reloc_x86_64(const LIEF::ELF::Relocation &reloc) {
   const Arch binarch = arch();
   const auto type = static_cast<RELOC_x86_64>(reloc.type());
@@ -212,26 +221,13 @@ void ELF::reloc_x86_64(const LIEF::ELF::Relocation &reloc) {
   }
 
   case RELOC_x86_64::R_X86_64_JUMP_SLOT: {
-
-    // First check if the symbol is not exported by the binary itself:
-    if (uintptr_t addr = resolve(reloc.symbol()); addr != 0) {
-      engine_->mem().write_ptr(binarch, addr_target, addr + reloc.addend());
-      break;
-    }
-
-    const uintptr_t sym_addr = engine_->symlink(*this, reloc.symbol());
+    const uintptr_t sym_addr = resolve_or_symlink(reloc.symbol());
     engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
     break;
   }
   case RELOC_x86_64::R_X86_64_GLOB_DAT: {
-    // First check if the symbol is not exported by the binary itself:
-    if (uintptr_t addr = resolve(reloc.symbol()); addr != 0) {
-      engine_->mem().write_ptr(binarch, addr_target, addr + reloc.addend());
-      break;
-    }
-
-    const uintptr_t addr = engine_->symlink(*this, reloc.symbol());
-    engine_->mem().write_ptr(binarch, addr_target, addr + reloc.addend());
+    const uintptr_t sym_addr = resolve_or_symlink(reloc.symbol());
+    engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
     break;
   }
 
@@ -262,22 +258,12 @@ void ELF::reloc_aarch64(const LIEF::ELF::Relocation &reloc) {
   }
 
   case RELOC_AARCH64::R_AARCH64_JUMP_SLOT: {
-    // First check if the symbol is not exported by the binary itself:
-    if (uintptr_t addr = resolve(reloc.symbol()); addr != 0) {
-      engine_->mem().write_ptr(binarch, addr_target, addr + reloc.addend());
-      break;
-    }
-    const uintptr_t sym_addr = engine_->symlink(*this, reloc.symbol());
+    const uintptr_t sym_addr = resolve_or_symlink(reloc.symbol());
     engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
     break;
   }
   case RELOC_AARCH64::R_AARCH64_GLOB_DAT: {
-    // First check if the symbol is not exported by the binary itself:
-    if (uintptr_t addr = resolve(reloc.symbol()); addr != 0) {
-      engine_->mem().write_ptr(binarch, addr_target, addr + reloc.addend());
-      break;
-    }
-    const uintptr_t sym_addr = engine_->symlink(*this, reloc.symbol());
+    const uintptr_t sym_addr = resolve_or_symlink(reloc.symbol());
     engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
     break;
   }
@@ -286,6 +272,12 @@ void ELF::reloc_aarch64(const LIEF::ELF::Relocation &reloc) {
     const uintptr_t sym_addr = engine_->symlink(*this, reloc.symbol());
     engine_->mem().write(addr_target, reinterpret_cast<const void *>(sym_addr),
                          reloc.symbol().size());
+    break;
+  }
+
+  case RELOC_AARCH64::R_AARCH64_ABS64: {
+    const uintptr_t sym_addr = resolve_or_symlink(reloc.symbol());
+    engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
     break;
   }
 

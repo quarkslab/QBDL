@@ -82,6 +82,7 @@ private:
   uint64_t get_rva(const LIEF::ELF::Binary &bin, uint64_t addr) const;
   void load(BIND binding);
   uintptr_t resolve(const LIEF::ELF::Symbol &sym);
+  uintptr_t resolve_or_symlink(const LIEF::ELF::Symbol &sym);
 
   ELF(std::unique_ptr<LIEF::ELF::Binary> bin, TargetSystem &engines);
 
