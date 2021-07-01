@@ -77,6 +77,7 @@ public:
   uint64_t get_address(uint64_t offset) const override;
   uint64_t entrypoint() const override;
   uint64_t base_address() const override { return base_address_; }
+  uint64_t mem_size() const override { return mem_size_; }
   Arch arch() const override;
 
   ~MachO() override;
@@ -92,6 +93,7 @@ private:
 
   std::unique_ptr<LIEF::MachO::Binary> bin_;
   uint64_t base_address_{0};
+  uint64_t mem_size_{0};
 };
 } // namespace QBDL::Loaders
 

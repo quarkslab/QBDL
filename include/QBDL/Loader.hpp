@@ -35,6 +35,14 @@ public:
    */
   virtual uint64_t base_address() const = 0;
 
+  /** Get the size of the binary after being mapped in memory
+   */
+  virtual uint64_t mem_size() const = 0;
+
+  /** Checks if `ptr` belongs to the memory mapped binary
+   */
+  bool contains_address(uint64_t ptr) const;
+
   virtual ~Loader();
 
   /** Get the architecture targeted by the loaded binary.

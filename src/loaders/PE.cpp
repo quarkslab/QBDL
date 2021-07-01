@@ -65,6 +65,7 @@ void PE::load(BIND binding) {
 
   uint64_t virtual_size = binary.virtual_size();
   virtual_size = page_align(virtual_size);
+  mem_size_ = virtual_size;
 
   Logger::debug("Virtual size: 0x{:x}", virtual_size);
 

@@ -64,6 +64,7 @@ public:
   uint64_t entrypoint() const override;
 
   uint64_t base_address() const override { return base_address_; }
+  uint64_t mem_size() const override { return mem_size_; }
   Arch arch() const override;
 
   LIEF::PE::Binary &get_binary() { return *bin_; }
@@ -80,6 +81,7 @@ private:
 
   std::unique_ptr<LIEF::PE::Binary> bin_;
   uint64_t base_address_{0};
+  uint64_t mem_size_{0};
 };
 } // namespace QBDL::Loaders
 
