@@ -60,11 +60,11 @@ MachO::MachO(std::unique_ptr<LIEF::MachO::Binary> bin, TargetSystem &engine)
 
 uint64_t MachO::get_address(const std::string &sym) const {
   const LIEF::MachO::Binary &binary = get_binary();
-  if (!binary.has_symbol(sym)) {
+  const LIEF::MachO::Symbol *symbol = binary.get_symbol(sym);
+  if (!symbol) {
     return 0;
   }
-  const LIEF::MachO::Symbol &symbol = binary.get_symbol(sym);
-  return base_address_ + get_rva(binary, symbol.value());
+  return base_address_ + get_rva(binary, symbol->value());
 }
 
 uint64_t MachO::get_address(uint64_t offset) const {
