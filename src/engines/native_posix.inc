@@ -7,7 +7,7 @@ uint64_t TargetMemory::mmap(uint64_t addr, size_t size) {
                      PROT_READ | PROT_WRITE | PROT_EXEC,
                      MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
 
-  if (ret == nullptr) {
+  if (ret == MAP_FAILED) {
     Logger::err("Error while trying mmap: {}", strerror(errno));
     return 0;
   }
