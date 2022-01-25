@@ -214,20 +214,22 @@ void ELF::reloc_x86_64(const LIEF::ELF::Relocation &reloc) {
   const auto type = static_cast<RELOC_x86_64>(reloc.type());
   const uintptr_t addr_target = base_address_ + reloc.address();
   switch (type) {
+  case RELOC_x86_64::R_X86_64_64: {
+    const uintptr_t sym_addr = resolve_or_symlink(reloc.symbol());
+    engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
+    break;
+  }
+
   case RELOC_x86_64::R_X86_64_RELATIVE: {
     engine_->mem().write_ptr(binarch, addr_target,
                              base_address_ + reloc.addend());
     break;
   }
 
+  case RELOC_x86_64::R_X86_64_GLOB_DAT:
   case RELOC_x86_64::R_X86_64_JUMP_SLOT: {
     const uintptr_t sym_addr = resolve_or_symlink(reloc.symbol());
-    engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
-    break;
-  }
-  case RELOC_x86_64::R_X86_64_GLOB_DAT: {
-    const uintptr_t sym_addr = resolve_or_symlink(reloc.symbol());
-    engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
+    engine_->mem().write_ptr(binarch, addr_target, sym_addr);
     break;
   }
 
