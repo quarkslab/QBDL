@@ -108,7 +108,7 @@ void ELF::load(BIND binding) {
   Binary &binary = get_binary();
 
   uint64_t virtual_size = binary.virtual_size();
-  virtual_size -= binary.imagebase();
+  virtual_size -= page_offset(binary.imagebase());
   virtual_size = page_align(virtual_size);
   mem_size_ = virtual_size;
 
