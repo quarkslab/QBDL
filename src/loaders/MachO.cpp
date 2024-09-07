@@ -47,7 +47,7 @@ MachO::from_binary(std::unique_ptr<LIEF::MachO::Binary> bin,
 std::unique_ptr<LIEF::MachO::Binary>
 MachO::take_arch_binary(LIEF::MachO::FatBinary &fatbin, Arch const &arch) {
   for (size_t i = 0; i < fatbin.size(); ++i) {
-    auto &bin = fatbin[i];
+    auto &bin = *fatbin[i];
     if (Arch::from_bin(bin) == arch) {
       return fatbin.take(i);
     }
@@ -112,7 +112,7 @@ bool MachO::load(BIND binding) {
     const uint64_t rva = get_rva(binary, segment.virtual_address());
 
     Logger::debug("Mapping {} - 0x{:x}", segment.name(), rva);
-    const std::vector<uint8_t> &content = segment.content();
+    const auto &content = segment.content();
 
     if (content.size() > 0) {
       engine_->mem().write(base_address + rva, content.data(), content.size());
@@ -123,15 +123,15 @@ bool MachO::load(BIND binding) {
   // =======================================================
   for (const LIEF::MachO::Relocation &relocation : binary.relocations()) {
     if (relocation.origin() ==
-        LIEF::MachO::RELOCATION_ORIGINS::ORIGIN_RELOC_TABLE) {
+        LIEF::MachO::Relocation::ORIGIN::RELOC_TABLE) {
       Logger::warn("Relocation not handled!");
       continue;
     }
 
     const auto rtype =
-        static_cast<LIEF::MachO::REBASE_TYPES>(relocation.type());
+        static_cast<LIEF::MachO::DyldInfo::REBASE_TYPE>(relocation.type());
     switch (rtype) {
-    case LIEF::MachO::REBASE_TYPES::REBASE_TYPE_POINTER: {
+    case LIEF::MachO::DyldInfo::REBASE_TYPE::POINTER: {
       const uint64_t rva = get_rva(binary, relocation.address());
       const uint64_t rel_ptr = base_address + rva;
       uint64_t rel_ptr_val = engine_->mem().read_ptr(binarch, rel_ptr);
@@ -168,18 +168,17 @@ bool MachO::load(BIND binding) {
 void MachO::bind_now() {
   const LIEF::MachO::Binary &binary = get_binary();
   const Arch binarch = arch();
-  for (const LIEF::MachO::BindingInfo &info : binary.dyld_info().bindings()) {
-    // TODO(romain): Add BIND_CLASS_THREADED when moving to LIEF 0.12.0
-    if (info.binding_class() != LIEF::MachO::BINDING_CLASS::BIND_CLASS_LAZY &&
-        info.binding_class() !=
-            LIEF::MachO::BINDING_CLASS::BIND_CLASS_STANDARD) {
+  for (const LIEF::MachO::DyldBindingInfo &info : binary.dyld_info()->bindings()) {
+    if (info.binding_class() != LIEF::MachO::DyldBindingInfo::CLASS::LAZY &&
+        info.binding_class() != LIEF::MachO::DyldBindingInfo::CLASS::STANDARD &&
+        info.binding_class() != LIEF::MachO::DyldBindingInfo::CLASS::THREADED) {
       continue;
     }
     if (!info.has_symbol()) {
       Logger::warn("Lazy bindings isn't linked to a symbol!");
       continue;
     }
-    const auto &sym = info.symbol();
+    const auto &sym = *info.symbol();
     const uint64_t ptrRVA = get_rva(binary, info.address());
     const uint64_t ptrAddr = base_address_ + ptrRVA;
     const uint64_t symAddr = engine_->symlink(*this, sym);
