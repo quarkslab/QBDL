@@ -41,7 +41,7 @@ uint64_t PE::get_address(const std::string &sym) const {
   const Binary &binary = get_binary();
   const LIEF::Symbol *symbol = nullptr;
   if (binary.has_symbol(sym)) {
-    symbol = &binary.get_symbol(sym);
+    symbol = binary.get_symbol(sym);
   }
   if (symbol == nullptr) {
     return 0;
@@ -86,7 +86,7 @@ void PE::load(BIND binding) {
                section.virtual_address(),
                section.virtual_address() + section.virtual_size());
     const uint64_t rva = section.virtual_address();
-    const std::vector<uint8_t> &content = section.content();
+    const auto &content = section.content();
     if (!content.empty()) {
       engine_->mem().write(base_address_ + rva, content.data(), content.size());
     }
@@ -101,7 +101,7 @@ void PE::load(BIND binding) {
       const uint64_t rva = relocation.virtual_address();
       for (const RelocationEntry &entry : relocation.entries()) {
         switch (entry.type()) {
-        case RELOCATIONS_BASE_TYPES::IMAGE_REL_BASED_DIR64: {
+        case RelocationEntry::BASE_TYPES::DIR64: {
           const uint64_t relocation_addr =
               base_address_ + rva + entry.position();
           const uint64_t value =

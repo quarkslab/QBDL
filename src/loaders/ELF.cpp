@@ -1,9 +1,10 @@
-#include "logging.hpp"
 #include <LIEF/ELF.hpp>
 #include <QBDL/Engine.hpp>
 #include <QBDL/arch.hpp>
 #include <QBDL/loaders/ELF.hpp>
 #include <QBDL/utils.hpp>
+
+#include "logging.hpp"
 
 using namespace LIEF::ELF;
 
@@ -22,8 +23,8 @@ uintptr_t ELF::dl_resolve(void *loader, uintptr_t hint) {
 
   const ARCH arch = ldr.get_binary().header().machine_type();
   uintptr_t plt_sym_idx = hint;
-  if (arch == ARCH::EM_AARCH64) {
-    const uintptr_t got_base = bin.get(DYNAMIC_TAGS::DT_PLTGOT).value();
+  if (arch == ARCH::AARCH64) {
+    const uintptr_t got_base = bin.get(DynamicEntry::TAG::PLTGOT)->value();
     plt_sym_idx =
         (plt_sym_idx - ldr.base_address_ - got_base) / sizeof(uintptr_t);
     // We need to remove the first reserved entries to get the index
@@ -38,7 +39,7 @@ uintptr_t ELF::dl_resolve(void *loader, uintptr_t hint) {
   }
 
   const Relocation &plt_reloc = pltgot[plt_sym_idx];
-  const Symbol &sym = plt_reloc.symbol();
+  const Symbol &sym = *plt_reloc.symbol();
   const uintptr_t sym_addr = ldr.engine_->symlink(ldr, sym);
   const uintptr_t addr_target = ldr.get_address(plt_reloc.address());
 
@@ -87,7 +88,7 @@ uint64_t ELF::get_address(const std::string &sym) const {
   const Binary &binary = get_binary();
   const LIEF::Symbol *symbol = nullptr;
   if (binary.has_symbol(sym)) {
-    symbol = &binary.get_symbol(sym);
+    symbol = binary.get_symbol(sym);
   }
   if (symbol == nullptr) {
     return 0;
@@ -127,13 +128,13 @@ void ELF::load(BIND binding) {
   // Map segments
   // =======================================================
   for (const Segment &segment : binary.segments()) {
-    if (segment.type() != SEGMENT_TYPES::PT_LOAD) {
+    if (segment.type() != Segment::TYPE::LOAD) {
       continue;
     }
     const uint64_t rva = get_rva(binary, segment.virtual_address());
 
     Logger::debug("Mapping {} - 0x{:x}", to_string(segment.type()), rva);
-    const std::vector<uint8_t> &content = segment.content();
+    const auto &content = segment.content();
     if (content.size() > 0) {
       engine_->mem().write(base_address + rva, content.data(), content.size());
     }
@@ -143,12 +144,12 @@ void ELF::load(BIND binding) {
   relocation_fcn_t relocator = nullptr;
   const LIEF::ELF::ARCH arch = get_binary().header().machine_type();
   switch (arch) {
-  case LIEF::ELF::ARCH::EM_AARCH64: {
+  case LIEF::ELF::ARCH::AARCH64: {
     relocator = &ELF::reloc_aarch64;
     break;
   }
 
-  case LIEF::ELF::ARCH::EM_X86_64: {
+  case LIEF::ELF::ARCH::X86_64: {
     relocator = &ELF::reloc_x86_64;
     break;
   }
@@ -211,32 +212,32 @@ uintptr_t ELF::resolve_or_symlink(const LIEF::ELF::Symbol &sym) {
 
 void ELF::reloc_x86_64(const LIEF::ELF::Relocation &reloc) {
   const Arch binarch = arch();
-  const auto type = static_cast<RELOC_x86_64>(reloc.type());
+  const auto type = reloc.type();
   const uintptr_t addr_target = base_address_ + reloc.address();
   switch (type) {
-  case RELOC_x86_64::R_X86_64_64: {
-    const uintptr_t sym_addr = resolve_or_symlink(reloc.symbol());
+  case LIEF::ELF::Relocation::TYPE::X86_64_64: {
+    const uintptr_t sym_addr = resolve_or_symlink(*reloc.symbol());
     engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
     break;
   }
 
-  case RELOC_x86_64::R_X86_64_RELATIVE: {
+  case LIEF::ELF::Relocation::TYPE::X86_64_RELATIVE: {
     engine_->mem().write_ptr(binarch, addr_target,
                              base_address_ + reloc.addend());
     break;
   }
 
-  case RELOC_x86_64::R_X86_64_GLOB_DAT:
-  case RELOC_x86_64::R_X86_64_JUMP_SLOT: {
-    const uintptr_t sym_addr = resolve_or_symlink(reloc.symbol());
+  case LIEF::ELF::Relocation::TYPE::X86_64_GLOB_DAT:
+  case LIEF::ELF::Relocation::TYPE::X86_64_JUMP_SLOT: {
+    const uintptr_t sym_addr = resolve_or_symlink(*reloc.symbol());
     engine_->mem().write_ptr(binarch, addr_target, sym_addr);
     break;
   }
 
-  case RELOC_x86_64::R_X86_64_COPY: {
-    const uintptr_t sym_addr = engine_->symlink(*this, reloc.symbol());
+  case LIEF::ELF::Relocation::TYPE::X86_64_COPY: {
+    const uintptr_t sym_addr = engine_->symlink(*this, *reloc.symbol());
     engine_->mem().write(addr_target, reinterpret_cast<const void *>(sym_addr),
-                         reloc.symbol().size());
+                         reloc.symbol()->size());
     break;
   }
 
@@ -250,35 +251,35 @@ Arch ELF::arch() const { return Arch::from_bin(get_binary()); }
 
 void ELF::reloc_aarch64(const LIEF::ELF::Relocation &reloc) {
   const Arch binarch = arch();
-  const auto type = static_cast<RELOC_AARCH64>(reloc.type());
+  const auto type = reloc.type();
   const uintptr_t addr_target = base_address_ + reloc.address();
   switch (type) {
-  case RELOC_AARCH64::R_AARCH64_RELATIVE: {
+  case LIEF::ELF::Relocation::TYPE::AARCH64_RELATIVE: {
     engine_->mem().write_ptr(binarch, addr_target,
                              base_address_ + reloc.addend());
     break;
   }
 
-  case RELOC_AARCH64::R_AARCH64_JUMP_SLOT: {
-    const uintptr_t sym_addr = resolve_or_symlink(reloc.symbol());
+  case LIEF::ELF::Relocation::TYPE::AARCH64_JUMP_SLOT: {
+    const uintptr_t sym_addr = resolve_or_symlink(*reloc.symbol());
     engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
     break;
   }
-  case RELOC_AARCH64::R_AARCH64_GLOB_DAT: {
-    const uintptr_t sym_addr = resolve_or_symlink(reloc.symbol());
+  case LIEF::ELF::Relocation::TYPE::AARCH64_GLOB_DAT: {
+    const uintptr_t sym_addr = resolve_or_symlink(*reloc.symbol());
     engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
     break;
   }
 
-  case RELOC_AARCH64::R_AARCH64_COPY: {
-    const uintptr_t sym_addr = engine_->symlink(*this, reloc.symbol());
+  case LIEF::ELF::Relocation::TYPE::AARCH64_COPY: {
+    const uintptr_t sym_addr = engine_->symlink(*this, *reloc.symbol());
     engine_->mem().write(addr_target, reinterpret_cast<const void *>(sym_addr),
-                         reloc.symbol().size());
+                         reloc.symbol()->size());
     break;
   }
 
-  case RELOC_AARCH64::R_AARCH64_ABS64: {
-    const uintptr_t sym_addr = resolve_or_symlink(reloc.symbol());
+  case LIEF::ELF::Relocation::TYPE::AARCH64_ABS64: {
+    const uintptr_t sym_addr = resolve_or_symlink(*reloc.symbol());
     engine_->mem().write_ptr(binarch, addr_target, sym_addr + reloc.addend());
     break;
   }

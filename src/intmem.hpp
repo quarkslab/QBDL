@@ -7,11 +7,14 @@
 #include <cstring>
 #include <type_traits>
 
+#ifdef _MSC_VER
+#include <stdlib.h>
+#endif
+
 namespace intmem {
 
 // bswap functions. Uses GCC/clang/MSVC intrinsics.
 #ifdef _MSC_VER
-#include <stdlib.h>
 static uint8_t bswap(uint8_t V) { return V; }
 static uint16_t bswap(unsigned short V) { return _byteswap_ushort(V); }
 static_assert(sizeof(uint32_t) == sizeof(unsigned long),
