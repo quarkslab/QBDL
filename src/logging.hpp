@@ -4,7 +4,7 @@
 #include "spdlog/spdlog.h"
 #include <QBDL/log.hpp>
 
-#ifndef NDEBUG
+#ifdef NDEBUG
 static constexpr bool QBDL_DEBUG_ENABLED = false;
 #else
 static constexpr bool QBDL_DEBUG_ENABLED = true;
